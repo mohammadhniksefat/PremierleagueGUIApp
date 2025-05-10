@@ -1,0 +1,123 @@
+[
+    {
+      "id": 1,
+      "timestamp": 1739476760,
+      "home_team_id": 1,
+      "home_team_data": { "score": 2 },
+      "away_team_id": 2,
+      "away_team_data": { "score": 1 },
+      "week_number": 1,
+      "refree_name": "John Maverick"
+    },
+    {
+      "id": 2,
+      "timestamp": 1739476760,
+      "home_team_id": 3,
+      "home_team_data": { "score": 0 },
+      "away_team_id": 4,
+      "away_team_data": { "score": 3 },
+      "week_number": 1,
+      "refree_name": "Michael West"
+    },
+    {
+      "id": 3,
+      "timestamp": 1740081560,
+      "home_team_id": 2,
+      "home_team_data": { "score": 1 },
+      "away_team_id": 3,
+      "away_team_data": { "score": 2 },
+      "week_number": 2,
+      "refree_name": "Sarah Bennett"
+    },
+    {
+      "id": 4,
+      "timestamp": 1740081560,
+      "home_team_id": 4,
+      "home_team_data": { "score": 2 },
+      "away_team_id": 1,
+      "away_team_data": { "score": 2 },
+      "week_number": 2,
+      "refree_name": "Emily Carter"
+    },
+    {
+      "id": 5,
+      "timestamp": 1740686360,
+      "home_team_id": 1,
+      "home_team_data": { "score": 3 },
+      "away_team_id": 3,
+      "away_team_data": { "score": 1 },
+      "week_number": 3,
+      "refree_name": "Kevin Dawson"
+    },
+    {
+      "id": 6,
+      "timestamp": 1740686360,
+      "home_team_id": 2,
+      "home_team_data": { "score": 0 },
+      "away_team_id": 4,
+      "away_team_data": { "score": 1 },
+      "week_number": 3,
+      "refree_name": "David Foster"
+    },
+    {
+      "id": 7,
+      "timestamp": 1741291160,
+      "home_team_id": 3,
+      "home_team_data": { "score": 2 },
+      "away_team_id": 2,
+      "away_team_data": { "score": 1 },
+      "week_number": 4,
+      "refree_name": "Jessica Moore"
+    },
+    {
+      "id": 8,
+      "timestamp": 1741291160,
+      "home_team_id": 4,
+      "home_team_data": { "score": 3 },
+      "away_team_id": 1,
+      "away_team_data": { "score": 0 },
+      "week_number": 4,
+      "refree_name": "Chris Anderson"
+    },
+    {
+      "id": 9,
+      "timestamp": 1741895960,
+      "home_team_id": 1,
+      "home_team_data": { "score": 5 },
+      "away_team_id": 2,
+      "away_team_data": { "score": 2 },
+      "week_number": 5,
+      "refree_name": "Rachel Cooper"
+    },
+    {
+      "id": 10,
+      "timestamp": 1741895960,
+      "home_team_id": 3,
+      "home_team_data": { "score": 1 },
+      "away_team_id": 4,
+      "away_team_data": { "score": 0 },
+      "week_number": 5,
+      "refree_name": "Daniel Phillips"
+    },
+    {
+      "id": 11,
+      "timestamp": 1742500760,
+      "home_team_id": 2,
+      "home_team_data": { "score": 2 },
+      "away_team_id": 3,
+      "away_team_data": { "score": 2 },
+      "week_number": 6,
+      "refree_name": "Matthew Hayes"
+    },
+    {
+      "id": 12,
+      "timestamp": 1742500760,
+      "home_team_id": 4,
+      "home_team_data": { "score": 3 },
+      "away_team_id": 1,
+      "away_team_data": { "score": 1 },
+      "week_number": 6,
+      "refree_name": "Olivia Bennett"
+    }
+  ]
+  

@@ -1,0 +1,43 @@
+from abc import ABC, abstractmethod
+
+class BaseModel(ABC):    
+    @abstractmethod
+    def create_table_if_not_exists(self): pass
+
+    @abstractmethod
+    def get_records(self): pass
+
+    @abstractmethod
+    def get_specific_column(self, column, sort_by=None): pass
+
+    @abstractmethod
+    def get_records_count(self): pass
+
+    @abstractmethod
+    def is_record_exist(self): pass
+
+    @abstractmethod
+    def delete_records(self): pass
+
+    @abstractmethod
+    def create_record(self, record): pass
+
+    @abstractmethod
+    def get_column_names(self): pass
+
+    @abstractmethod
+    def get_required_columns_names(self): pass
+
+class TeamsModel(BaseModel, ABC):
+    @abstractmethod
+    def get_team_id_by_its_name(self, team_name): pass
+
+class MatchesModel(BaseModel, ABC):
+    @abstractmethod
+    def get_records_within_period(self, timestamp, period): pass
+
+class PlayersModel(BaseModel, ABC):
+    pass
+
+class TablesModel(BaseModel, ABC):
+    pass

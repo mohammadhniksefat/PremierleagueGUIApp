@@ -1,0 +1,51 @@
+[
+    {
+      "team_id": 1,
+      "team_name": "Falcon warriors",
+      "points":6,
+      "goals_difference": 6,
+      "goals_against": 6,
+      "goals_for": 13,
+      "lost": 2,
+      "drawn": 2,
+      "won": 2,
+      "played": 6
+    },
+    {
+      "team_id": 2,
+      "team_name": "Iron Titans",
+      "points":3,
+      "goals_difference": -7,
+      "goals_against": 14,
+      "goals_for": 7,
+      "lost": 4,
+      "drawn": 1,
+      "won": 1,
+      "played": 6
+    },
+    {
+      "team_id": 3,
+      "team_name": "Shadow Strikers",
+      "points":0,
+      "goals_difference": -7,
+      "goals_against": 16,
+      "goals_for": 9,
+      "lost": 4,
+      "drawn": 2,
+      "won": 0,
+      "played": 6
+    },
+    {
+      "team_id": 4,
+      "team_name": "Blazing Storm",
+      "points":12,
+      "goals_difference": 6,
+      "goals_against": 6,
+      "goals_for": 12,
+      "lost": 2,
+      "drawn": 0,
+      "won": 4,
+      "played": 6
+    }
+  ]
+  

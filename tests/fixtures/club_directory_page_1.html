@@ -1,0 +1,565 @@
+<main id="mainContent" tabindex="0" class="t3">
+    
+    <!-- /131332370/GeneralTakeover_0 -->
+    
+    
+    
+        <div class="ad-takeover js-ad-takeover">
+            <nav class="navBar">
+                <a href="#!" class="plLogo" id="logoClose">
+                    <img src="/resources/rebrand/v7.153.55/i/elements/premier-league-logo-header-full.png" alt="Premier League Logo">
+                </a>
+                <a href="#!" id="advertClose" class="closeBtn">
+        <svg class="icon icn" aria-hidden="true">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://www.premierleague.com/resources/rebrand/v7.153.55/i/svg-output/icons.svg#icn-close"></use>
+        </svg>
+                    Close Advert
+                </a>
+            </nav>
+    
+            <div id="div-gpt-ad-1503491171981-0" class="DFP-takeover" style="display: none;"></div>
+    
+            <script type="text/javascript">
+                var getCookie = function(name){
+                    var i, x, y, ARRcookies = document.cookie.split(";");
+                    for (i = 0; i < ARRcookies.length; i++) {
+                        x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+                        y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+                        x = x.replace(/^\s+|\s+$/g, "");
+                        if (x == name) {
+                            return unescape(y);
+                        }
+                    }
+                };
+            
+                if ( !getCookie("NRFR") ) {
+    
+                    // GOOGLE ADS SCRIPT
+                    var adWrap = document.querySelector('.js-ad-takeover');
+                    var slotId = '/131332370/GeneralTakeover_0';
+    
+                    var setCookieFunc = function() {
+                        setTimeout( () => {
+                            adWrap.innerHTML = "";
+                            adWrap.style.width = 0;
+                            adWrap.style.height = 0;
+                            setCookie( "NRFR", true, 30, document.location.hostname )
+                        })
+                    }
+    
+    
+                    window.addEventListener('OneTrustGroupsUpdated', event => {
+                        const hasAcceptedNonEssentialCookies = event.detail.length > 1;
+                        if (hasAcceptedNonEssentialCookies) {
+                            googletag.cmd.push(function() { 
+                                var mapping = googletag.sizeMapping(). 
+                                addSize([0, 0], []). 
+                                addSize([200, 300], [[320, 50], [320, 480]]).
+                                addSize([450, 300], [[320, 50], [1600, 900]]).      
+                                addSize([750, 300], [[728, 90], [1600, 900]]). 
+                                addSize([990, 300], [[1600, 900], [970, 250], [728, 90]]).build();
+    
+                                googletag.defineSlot('/131332370/GeneralTakeover', [
+                                    [1600, 900], 
+                                    [320, 480]
+                                ], 'div-gpt-ad-1503491171981-0').
+                                    defineSizeMapping(mapping).
+                                    addService(googletag.pubads());
+                                
+                                googletag.pubads().addEventListener('slotRenderEnded', function (event) {
+                                    
+                                    if ( slotId === event.slot.getSlotId().toString() ) {
+                                        if (event.isEmpty) {
+                                            adWrap.style.display = 'none';
+                                        } else {
+                                            adWrap.style.display = 'block';
+                                        }
+                                    }
+                                    
+                                    let iframeDocument = adWrap.querySelector('iframe').contentDocument || adWrap.querySelector('iframe').contentWindow.document;
+                                    let links =  iframeDocument.querySelectorAll('a');
+                                    
+                                    links.forEach( link => {
+                                        link.addEventListener('click', function() {
+                                        
+                                            setTimeout( () => {
+                                                setCookieFunc();
+                                            })
+                                        });
+                                    })
+                                });
+    
+                                googletag.display('div-gpt-ad-1503491171981-0');
+    
+                            });
+                        }
+                    })
+    
+                    
+    
+                    // PULSELIVE SCRIPT
+                    var closeBtn = document.getElementById('advertClose');
+                    var closeLogo = document.getElementById('logoClose');
+    
+                    var setCookie = function( name, data, expiry, domain ){
+                        var exdate = new Date();
+                        
+                        if( expiry instanceof Date ) {
+                            exdate = expiry;
+                        } else {
+                            exdate.setDate(exdate.getDate() + expiry);
+                        }
+    
+                        var c_value = escape(data) + ((expiry === null) ? "" : "; expires=" + exdate.toUTCString()) + ";";
+                        var domain_value = domain ? " domain=" + ( domain || window.location.host ) + ";" : "";
+                        document.cookie = name + "=" + c_value + domain_value + " path=/";
+                    };
+    
+                    closeBtn.addEventListener('click', function( e ){
+                        e.preventDefault();
+                        setCookieFunc();
+                    });
+    
+                    closeLogo.addEventListener('click', function( e ){
+                        e.preventDefault();
+                        setCookieFunc();
+                    });
+                    
+                    adWrap.addEventListener( 'click', function( e ) {
+                        setCookieFunc();
+                    } )
+                }
+            </script>
+        </div>
+    
+        
+    
+      <header class="club-header club-header--t3" data-script="pl_clubs" data-widget="club-header" data-team="t3">
+          <div class="club-header__content">
+                <img class="club-header__badge club-badge--small club-badge--full-width" src="https://resources.premierleague.com/premierleague/badges/t3.png" alt="Arsenal Club Badge">
+              <div class="club-header__text-content">
+                <h2 class="club-header__team-name">Arsenal</h2>
+                <div class="club-header__club-info">
+                    <span class="club-header__founded-date"> Est: 1886 </span>
+                    <span class="club-header__club-stadium"> Emirates Stadium, London</span>
+                    <span class="club-header__stadium-capacity">Capacity: 60,704</span>
+                </div>
+              </div>
+        <svg class="club-header__svg-decoration club-header__svg-decoration--mobile" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <defs> 
+                    <linearGradient id="svg-gradient-var" x1="671.5" y1="-2543.5" x2="2774.42" y2="-903.522" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#be000a"></stop>
+                            <stop offset="100%" stop-color="#ff0203"></stop>
+                    </linearGradient>
+                </defs>
+    
+                <path d="M1476.18 343.773C1417.62 314.292 1359.88 282.402 1303.25 247.956H1370.01C1238.91 168.211 1113.73 74.8191 997.693 -33.3461H1053.33C1037.45 -48.144 1021.68 -63.1311 1006.15 -78.4882C930.279 -153.539 860.623 -232.469 797.157 -314.639H841.666C772.051 -404.776 709.962 -498.833 655.282 -595.941H688.664C637.256 -687.236 592.418 -781.22 554.223 -877.242H576.478C543.418 -960.341 515.278 -1044.94 492.109 -1130.61L520.117 -1158.54C554.586 -1062.74 595.542 -968.768 642.869 -877.242H620.615C670.679 -780.455 727.914 -686.422 792.377 -595.941H758.995C829.022 -497.649 907.547 -403.542 994.602 -314.639H950.093C959.003 -305.547 967.971 -296.487 977.054 -287.501C1073.1 -192.49 1175.92 -107.911 1283.7 -33.3378H1228.07C1356.01 55.1788 1490.99 129.53 1630.08 190.268L1476.18 343.781V343.773ZM1448.17 371.708C1309.06 310.97 1174.09 236.619 1046.15 148.102H1101.78C994.008 73.5283 891.194 -11.0503 795.138 -106.062C786.055 -115.047 777.079 -124.107 768.177 -133.199H812.686C725.63 -222.103 647.106 -316.21 577.079 -414.501H610.461C545.997 -504.982 488.763 -599.007 438.699 -695.803H460.953C413.618 -787.328 372.67 -881.304 338.201 -977.104L310.193 -949.169C333.362 -863.505 361.502 -778.901 394.562 -695.803H372.307C410.51 -599.78 455.349 -505.796 506.748 -414.501H473.366C528.046 -317.393 590.143 -223.336 659.75 -133.199H615.241C678.707 -51.0295 748.363 27.9094 824.233 102.952C839.762 118.309 855.529 133.296 871.412 148.094H815.776C931.82 256.25 1057 349.651 1188.1 429.395H1121.34C1177.97 463.842 1235.71 495.731 1294.26 525.212L1448.17 371.7V371.708ZM1812 8.81189C1672.89 -51.9257 1537.93 -126.277 1409.98 -214.794H1465.62C1357.84 -289.368 1255.03 -373.946 1158.97 -468.958C1149.89 -477.943 1140.91 -487.003 1132.01 -496.096H1176.52C1089.46 -584.999 1010.94 -679.105 940.911 -777.397H974.293C909.83 -867.878 852.595 -961.903 802.531 -1058.7H824.785C777.45 -1150.22 736.502 -1244.2 702.033 -1340L674.025 -1312.06C697.194 -1226.4 725.334 -1141.8 758.394 -1058.7H736.139C774.342 -962.676 819.181 -868.692 870.58 -777.397H837.198C891.878 -680.289 953.975 -586.232 1023.58 -496.096H979.073C1042.54 -413.926 1112.19 -334.987 1188.07 -259.944C1203.59 -244.587 1219.36 -229.6 1235.24 -214.802H1179.61C1295.65 -106.645 1420.83 -13.2455 1551.93 66.4993H1485.17C1541.8 100.946 1599.54 132.835 1658.09 162.316L1812 8.80359V8.81189ZM901.983 916.487C762.877 855.75 627.91 781.398 499.964 692.882H555.6C447.823 618.308 345.009 533.729 248.953 438.718C239.87 429.732 230.894 420.673 221.992 411.58H266.501C179.445 322.677 100.921 228.57 30.8943 130.279H64.2756C-0.187485 39.7971 -57.4221 -54.2277 -107.486 -151.023H-85.2316C-132.567 -242.548 -173.515 -336.524 -207.984 -432.324L-236 -404.381C-212.831 -318.717 -184.692 -234.114 -151.632 -151.015H-173.886C-135.683 -54.9922 -90.8447 38.9915 -39.4456 130.287H-72.827C-18.1475 227.395 43.9501 321.452 113.556 411.588H69.0479C132.514 493.758 202.169 572.697 278.04 647.74C293.568 663.097 309.336 678.084 325.219 692.882H269.583C385.627 801.038 510.803 894.438 641.905 974.183H575.142C631.775 1008.63 689.513 1040.52 748.066 1070L901.975 916.487H901.983ZM1265.81 553.592C1126.71 492.854 991.742 418.502 863.796 329.986H919.432C811.655 255.412 708.841 170.833 612.785 75.822C603.702 66.8364 594.726 57.7767 585.824 48.6842H630.333C543.277 -40.2189 464.753 -134.326 394.726 -232.617H428.108C363.645 -323.099 306.41 -417.124 256.346 -513.919H278.6C231.265 -605.444 190.317 -699.42 155.848 -795.22L127.84 -767.285C151.009 -681.621 179.149 -597.018 212.209 -513.919H189.954C228.157 -417.896 272.996 -323.913 324.395 -232.617H291.013C345.693 -135.51 407.79 -41.452 477.397 48.6842H432.888C496.354 130.854 566.01 209.793 641.88 284.835C657.409 300.192 673.176 315.18 689.059 329.978H633.424C749.467 438.134 874.643 531.534 1005.75 611.279H938.983C995.616 645.725 1053.35 677.615 1111.91 707.096L1265.81 553.583V553.592ZM1083.9 735.04C944.793 674.302 809.826 599.95 681.88 511.434H737.516C629.739 436.86 526.925 352.281 430.869 257.27C421.786 248.284 412.81 239.225 403.908 230.132H448.417C361.361 141.229 282.837 47.1221 212.81 -51.1694H246.192C181.729 -141.651 124.494 -235.676 74.4301 -332.471H96.6844C49.3488 -423.996 8.401 -517.972 -26.0683 -613.772L-54.0757 -585.837C-30.9066 -500.173 -2.76733 -415.57 30.2926 -332.471H8.03833C46.2414 -236.448 91.0796 -142.465 142.479 -51.1694H109.097C163.777 45.9382 225.874 139.996 295.481 230.132H250.972C314.438 312.302 384.094 391.241 459.964 466.283C475.493 481.641 491.26 496.627 507.143 511.425H451.508C567.551 619.582 692.727 712.982 823.829 792.727H757.067C813.699 827.173 871.437 859.063 929.99 888.544L1083.9 735.031V735.04Z" fill="url(#svg-gradient-var)"></path>
+        </svg>
+          </div>
+          
+    
+    
+    <div class="club-hero-image club-hero-image--t1 ">
+            <div class="club-hero-image__image-wrapper">
+            <picture class=" picture ">
+                        <source class="club-hero-image__hero-image" srcset="https://resources.premierleague.pulselive.com/photo-resources/2024/08/16/fe096945-33e1-46e4-b5d2-257259a5fa04/Arsenal_1920x1280_2425.jpg?width=500&amp;height=210, https://resources.premierleague.pulselive.com/photo-resources/2024/08/16/fe096945-33e1-46e4-b5d2-257259a5fa04/Arsenal_1920x1280_2425.jpg?width=1000&amp;height=420 2x" media="(max-width: 500px)">
+                        <source class="club-hero-image__hero-image" srcset="https://resources.premierleague.pulselive.com/photo-resources/2024/08/16/fe096945-33e1-46e4-b5d2-257259a5fa04/Arsenal_1920x1280_2425.jpg?width=700&amp;height=220, https://resources.premierleague.pulselive.com/photo-resources/2024/08/16/fe096945-33e1-46e4-b5d2-257259a5fa04/Arsenal_1920x1280_2425.jpg?width=1400&amp;height=440 2x" media="(max-width: 700px)">
+                        <img loading="lazy" class="club-hero-image__hero-image picture__img" src="https://resources.premierleague.pulselive.com/photo-resources/2024/08/16/fe096945-33e1-46e4-b5d2-257259a5fa04/Arsenal_1920x1280_2425.jpg?width=567&amp;height=319" alt="Arsenal_1920x1280_2425">
+            </picture>
+            </div>
+    </div>
+    
+    
+    
+        <svg class="club-header__svg-decoration" viewBox="0 0 1400 330" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                <defs> 
+                    <linearGradient id="svg-gradient-var" x1="671.5" y1="-2543.5" x2="2774.42" y2="-903.522" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#be000a"></stop>
+                            <stop offset="100%" stop-color="#ff0203"></stop>
+                    </linearGradient>
+                </defs>
+    
+                <path d="M1476.18 343.773C1417.62 314.292 1359.88 282.402 1303.25 247.956H1370.01C1238.91 168.211 1113.73 74.8191 997.693 -33.3461H1053.33C1037.45 -48.144 1021.68 -63.1311 1006.15 -78.4882C930.279 -153.539 860.623 -232.469 797.157 -314.639H841.666C772.051 -404.776 709.962 -498.833 655.282 -595.941H688.664C637.256 -687.236 592.418 -781.22 554.223 -877.242H576.478C543.418 -960.341 515.278 -1044.94 492.109 -1130.61L520.117 -1158.54C554.586 -1062.74 595.542 -968.768 642.869 -877.242H620.615C670.679 -780.455 727.914 -686.422 792.377 -595.941H758.995C829.022 -497.649 907.547 -403.542 994.602 -314.639H950.093C959.003 -305.547 967.971 -296.487 977.054 -287.501C1073.1 -192.49 1175.92 -107.911 1283.7 -33.3378H1228.07C1356.01 55.1788 1490.99 129.53 1630.08 190.268L1476.18 343.781V343.773ZM1448.17 371.708C1309.06 310.97 1174.09 236.619 1046.15 148.102H1101.78C994.008 73.5283 891.194 -11.0503 795.138 -106.062C786.055 -115.047 777.079 -124.107 768.177 -133.199H812.686C725.63 -222.103 647.106 -316.21 577.079 -414.501H610.461C545.997 -504.982 488.763 -599.007 438.699 -695.803H460.953C413.618 -787.328 372.67 -881.304 338.201 -977.104L310.193 -949.169C333.362 -863.505 361.502 -778.901 394.562 -695.803H372.307C410.51 -599.78 455.349 -505.796 506.748 -414.501H473.366C528.046 -317.393 590.143 -223.336 659.75 -133.199H615.241C678.707 -51.0295 748.363 27.9094 824.233 102.952C839.762 118.309 855.529 133.296 871.412 148.094H815.776C931.82 256.25 1057 349.651 1188.1 429.395H1121.34C1177.97 463.842 1235.71 495.731 1294.26 525.212L1448.17 371.7V371.708ZM1812 8.81189C1672.89 -51.9257 1537.93 -126.277 1409.98 -214.794H1465.62C1357.84 -289.368 1255.03 -373.946 1158.97 -468.958C1149.89 -477.943 1140.91 -487.003 1132.01 -496.096H1176.52C1089.46 -584.999 1010.94 -679.105 940.911 -777.397H974.293C909.83 -867.878 852.595 -961.903 802.531 -1058.7H824.785C777.45 -1150.22 736.502 -1244.2 702.033 -1340L674.025 -1312.06C697.194 -1226.4 725.334 -1141.8 758.394 -1058.7H736.139C774.342 -962.676 819.181 -868.692 870.58 -777.397H837.198C891.878 -680.289 953.975 -586.232 1023.58 -496.096H979.073C1042.54 -413.926 1112.19 -334.987 1188.07 -259.944C1203.59 -244.587 1219.36 -229.6 1235.24 -214.802H1179.61C1295.65 -106.645 1420.83 -13.2455 1551.93 66.4993H1485.17C1541.8 100.946 1599.54 132.835 1658.09 162.316L1812 8.80359V8.81189ZM901.983 916.487C762.877 855.75 627.91 781.398 499.964 692.882H555.6C447.823 618.308 345.009 533.729 248.953 438.718C239.87 429.732 230.894 420.673 221.992 411.58H266.501C179.445 322.677 100.921 228.57 30.8943 130.279H64.2756C-0.187485 39.7971 -57.4221 -54.2277 -107.486 -151.023H-85.2316C-132.567 -242.548 -173.515 -336.524 -207.984 -432.324L-236 -404.381C-212.831 -318.717 -184.692 -234.114 -151.632 -151.015H-173.886C-135.683 -54.9922 -90.8447 38.9915 -39.4456 130.287H-72.827C-18.1475 227.395 43.9501 321.452 113.556 411.588H69.0479C132.514 493.758 202.169 572.697 278.04 647.74C293.568 663.097 309.336 678.084 325.219 692.882H269.583C385.627 801.038 510.803 894.438 641.905 974.183H575.142C631.775 1008.63 689.513 1040.52 748.066 1070L901.975 916.487H901.983ZM1265.81 553.592C1126.71 492.854 991.742 418.502 863.796 329.986H919.432C811.655 255.412 708.841 170.833 612.785 75.822C603.702 66.8364 594.726 57.7767 585.824 48.6842H630.333C543.277 -40.2189 464.753 -134.326 394.726 -232.617H428.108C363.645 -323.099 306.41 -417.124 256.346 -513.919H278.6C231.265 -605.444 190.317 -699.42 155.848 -795.22L127.84 -767.285C151.009 -681.621 179.149 -597.018 212.209 -513.919H189.954C228.157 -417.896 272.996 -323.913 324.395 -232.617H291.013C345.693 -135.51 407.79 -41.452 477.397 48.6842H432.888C496.354 130.854 566.01 209.793 641.88 284.835C657.409 300.192 673.176 315.18 689.059 329.978H633.424C749.467 438.134 874.643 531.534 1005.75 611.279H938.983C995.616 645.725 1053.35 677.615 1111.91 707.096L1265.81 553.583V553.592ZM1083.9 735.04C944.793 674.302 809.826 599.95 681.88 511.434H737.516C629.739 436.86 526.925 352.281 430.869 257.27C421.786 248.284 412.81 239.225 403.908 230.132H448.417C361.361 141.229 282.837 47.1221 212.81 -51.1694H246.192C181.729 -141.651 124.494 -235.676 74.4301 -332.471H96.6844C49.3488 -423.996 8.401 -517.972 -26.0683 -613.772L-54.0757 -585.837C-30.9066 -500.173 -2.76733 -415.57 30.2926 -332.471H8.03833C46.2414 -236.448 91.0796 -142.465 142.479 -51.1694H109.097C163.777 45.9382 225.874 139.996 295.481 230.132H250.972C314.438 312.302 384.094 391.241 459.964 466.283C475.493 481.641 491.26 496.627 507.143 511.425H451.508C567.551 619.582 692.727 712.982 823.829 792.727H757.067C813.699 827.173 871.437 859.063 929.99 888.544L1083.9 735.031V735.04Z" fill="url(#svg-gradient-var)"></path>
+        </svg>
+      </header>
+    
+    
+        <nav class="club-navigation wrapper" data-ui-more-nav="club-nav" data-script="pl_clubs">
+            <ul class="tablist club-navigation__nav" role="tablist">
+                        <li class="tab club-navigation__tab " data-nav-index="0">
+                            <a href="overview" data-text="Overview" class=" club-navigation__link" data-link-index="0" role="tab">
+                                Overview
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="1">
+                            <a href="squad?se=719" data-text="Squad" class=" club-navigation__link" data-link-index="1" role="tab">
+                                Squad
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="2">
+                            <a href="fixtures" data-text="Fixtures" class=" club-navigation__link" data-link-index="2" role="tab">
+                                Fixtures
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="3">
+                            <a href="results" data-text="Results" class=" club-navigation__link" data-link-index="3" role="tab">
+                                Results
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="4">
+                            <a href="stats" data-text="Stats" class=" club-navigation__link" data-link-index="4" role="tab">
+                                Stats
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="5">
+                            <a href="tickets" data-text="Tickets" class=" club-navigation__link" data-link-index="5" role="tab">
+                                Tickets
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="6">
+                            <a href="stadium" data-text="Stadium" class=" club-navigation__link" data-link-index="6" role="tab">
+                                Stadium
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab " data-nav-index="7">
+                            <a href="season-history" data-text="Season History" class=" club-navigation__link" data-link-index="7" role="tab">
+                                Season History
+                            </a>
+                        </li>
+                        <li class="tab club-navigation__tab is-active" data-nav-index="8">
+                            <a href="directory" data-text="Directory" class="is-active club-navigation__link" data-link-index="8" role="tab">
+                                Directory
+                            </a>
+                        </li>
+            <li class="more"><div class="moreToggle" tabindex="0">More<span class="icn chevron-down"></span></div><ul class="moreToggleDropdown"></ul></li></ul>
+        </nav>
+    
+    
+    <div class="wrapper col-12">
+        
+    
+        <section class="standardArticle article noLeadMedia   " data-script="pl_news-article" data-widget="article-body" data-title="Arsenal Club Directory" data-id="293167" data-category="">
+    
+            <div data-script="pl_editorial-lists" data-widget="video-list" class="articleImage">
+                <div class="article__lead-media">
+                </div>
+            </div>
+    
+    
+    
+            <div class="copy article__body">
+                <section class="clubDirectory">
+    <div class="wrapper">
+    <h3 class="sectionTitle">The Arsenal Football Club Plc</h3>
+    <div class="directoryMainInfo">
+    <div class="col-3 col-6-m">
+    <p>Highbury House</p>
+    <p>75 Drayton Park</p>
+    <p>London</p>
+    <p>N5 1BU</p>
+    </div>
+    <div class="col-9 col-6-m">
+    <p>Main Switchboard: <strong>020 7619 5000</strong></p>
+    <p>Contact Centre / Ticket Office: <strong>020 7619 5000</strong></p>
+    <p>Website: <a href="http://www.arsenal.com?utm_source=www.premier-league-website&amp;utm_campaign=website&amp;utm_medium=link" target="_blank" rel="noopener noreferrer">www.arsenal.com</a></p>
+    <p>Club Enquiries: <a href="mailto:fanservices@arsenal.co.uk" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-linkindex="9">fanservices@arsenal.co.uk</a></p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Co-Chairman</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Stanley Kroenke</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Co-Chairman</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Josh Kroenke</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Executive Vice-Chair</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Tim Lewis</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Chief Executive Officer</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Vinai Venkatesham</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Club Secretary</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Zayna Perkins</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>First-team Manager</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>First-team Manager</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Assistant Coaches</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Albert Stuivenberg</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Sporting Director</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Edu Gaspar</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Academy Manager</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Per Mertesacker</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Director of Football Operations</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Richard Garlick</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Chief Financial Officer</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Stuart Wisely</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>General Counsel</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Svenja Geissmar&nbsp;</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Chief Commercial Officer</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Juliet Slot</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Chief Operating Officer</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Karen Smart</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Communications Director</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Kate Laurens</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Stadium and Facilities Director</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>John Beattie</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Disability Liaison Officer</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Jacquie Pollard</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Disability Access Officer</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>John Dyster</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Senior Manager - Event Safety and Operations</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>William Payne</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Venue Director</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Tom McCann</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Head of Sports Medicine and Performance</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Dr Gary O'Driscoll&nbsp;</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Head of Horticulture and Playing Surface Operations</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Paul Ashcroft</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Managing Editor (Publications)</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Andy Exley</p>
+    </div>
+    </div>
+    </div>
+    <div class="directoryCards">
+    <div class="col-6 col-6-m">
+    <div class="card">
+    <div class="cardHeader">
+    <p><strong>Directors</strong></p>
+    </div>
+    <div class="cardBody">
+    <p>Stanley Kroenke</p>
+    <p>Josh Kroenke</p>
+    <p>Richard Carr</p>
+    <p>Lord Harris of Peckham</p>
+    <p>Tim Lewis</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-6 col-6-m">&nbsp;</div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+            </div>
+        </section>
+    
+    </div>
+    </main>

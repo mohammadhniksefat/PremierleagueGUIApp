@@ -1,0 +1,14 @@
+{
+    "test_extract_all_teams":{
+        "text":"",
+        "result":{
+            "url":"https://www.premierleague.com/clubs/1/Arsenal/overview",
+            "club_name":"Arsenal",
+            "stablishment_year":1886,
+            "manager": "Mikel Arteta",
+            "city": "London",
+            "stadium": "Emirates Stadium",
+            "capacity": 60704
+        }
+    }
+}
