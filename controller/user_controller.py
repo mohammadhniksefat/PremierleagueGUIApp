@@ -23,19 +23,15 @@ class MatchesSectionController:
 
     def _prepare_team_logos(self, width):
         logo_datas = self.teams_database_controller.get_specific_column(column="logo", sort_by="name")
-
-        for team_name, logo_data in logo_datas.items():
-                image_data = io.BytesIO(binascii.unhexlify(logo_data))
-                image = Image.open(image_data)
-                image = ImageEditor.resize_image_with_width(image, width)
-                image = ImageTk.PhotoImage(image)
-                logo_datas[team_name] = image
-
+        return {team_name: ImageManager.create_image_object(logo_data, width) for team_name, logo_data in logo_datas.items()}
+        
     def _get_team_names(self):
         return self.teams_database_controller.get_specific_column(column='name', sort_by='id')
 
     def get_weeks_count(self):
-        return self.matches_database_controller.get_records_count()
+        teams_count = self.teams_database_controller.get_records_count()
+        weeks_count = 2 * (teams_count - 1)
+        return weeks_count
 
     def get_this_week_number(self):
         this_week_number = self.matches_database_controller.get_records_within_period(

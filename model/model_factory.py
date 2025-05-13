@@ -1,5 +1,5 @@
 import sqlite3
-import models
+from . import models
 from pathlib import Path
 
 class ModelFactory:

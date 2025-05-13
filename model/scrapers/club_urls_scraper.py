@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from .request_handler import RequestHandler
 from .interfaces.club_urls_scraper import IClubUrlsScraper
-from .premierleague_website_scraper import PremierleagueWebsiteScraper
+from .interfaces.premierleague_website_scraper import PremierleagueWebsiteScraper
 
 class ClubUrlsScraper(PremierleagueWebsiteScraper, IClubUrlsScraper):
     def __init__(self, url=None):

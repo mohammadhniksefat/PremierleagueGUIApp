@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from .interfaces.player_data_scraper import IPlayerDataScraper
 from .utils import UrlValidator
 from .request_handler import RequestHandler
-from .premierleague_website_scraper import PremierleagueWebsiteScraper
+from .interfaces.premierleague_website_scraper import PremierleagueWebsiteScraper
 
 class PlayerDataScraper(PremierleagueWebsiteScraper, IPlayerDataScraper):
     def __init__(self, url):
