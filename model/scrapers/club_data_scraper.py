@@ -3,7 +3,7 @@ import re
 from .utils import UrlValidator
 from .request_handler import RequestHandler
 from .interfaces.club_data_scraper import IClubDataScraper
-from .interfaces.premierleague_website_scraper import PremierleagueWebsiteScraper
+from .premierleague_website_scraper import PremierleagueWebsiteScraper
 
 class ClubDataScraper(PremierleagueWebsiteScraper, IClubDataScraper):
     def __init__(self, url):

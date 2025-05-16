@@ -3,7 +3,7 @@ from .interfaces.player_urls_scraper import IPlayerUrlsScraper
 from .utils import UrlValidator
 from .request_handler import RequestHandler
 from .club_urls_scraper import ClubUrlsScraper
-from .interfaces.premierleague_website_scraper import PremierleagueWebsiteScraper
+from .premierleague_website_scraper import PremierleagueWebsiteScraper
 
 class PlayerUrlsScraper(PremierleagueWebsiteScraper, IPlayerUrlsScraper):
     def __init__(self, club_name=None, url=None):

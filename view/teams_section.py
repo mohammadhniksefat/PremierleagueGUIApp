@@ -1,4 +1,4 @@
-import tkinter
+import tkinter, webbrowser
 
 class TeamsSection:
     def __init__(self, container, callback):
@@ -42,10 +42,15 @@ class TeamsSection:
         manager_label = tkinter.Label(information_part, text=f"Manager: {team_data['manager']}")
         manager_label.pack(side='top', pady=3)
 
+        def open_webbrowser_closure(url):
+            def func():
+                webbrowser.open(url)
+            return func
+
         team_page_link = tkinter.Button(
             information_part,
             text="open Official Page", 
-            command=self.callback.open_webbrowser_closure(team_data['team_page_url'])
+            command=open_webbrowser_closure(team_data['team_page_url'])
         )
         team_page_link.pack(side='top', pady=3)
 

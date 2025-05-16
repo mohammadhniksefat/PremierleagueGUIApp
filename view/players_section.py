@@ -6,7 +6,7 @@ class PlayersSection:
         self.container = container
         self.callback = callback
         self.players_data_cache = dict()
-        self.teams_data = self.callback.get_teams_list(logos_width=25)
+        self.teams_data = self.callback.get_teams_data(logos_width=25)
 
         self.widget: tkinter.Frame
         self.teams_list_widget: tkinter.Frame
@@ -73,7 +73,7 @@ class PlayersSection:
             team_button = ttk.Button(self.teams_list_widget, text=team_data['team_name'], image=team_data['team_logo'], compound='right')
             team_button.pack(side='top', anchor='e', fill='x')
             team_button.configure(command=self._change_team_list_closure(team_data['team_name'], team_button))
-            team_button.team_name = team_data['team_name']
+            team_button.team_name = team_data['team_name']     # FIXME
             
             # team_button.bind("<Button-1>", self._change_team_list_closure(team_data['team_name'], team_name))
 
@@ -146,5 +146,4 @@ class PlayersSection:
 
             self._prepare_players_list_widget(team_name)
         
-
         return change_team_list

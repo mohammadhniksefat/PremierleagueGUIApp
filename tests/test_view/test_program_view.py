@@ -1,46 +1,52 @@
 import pytest, tkinter, sys, os, json, datetime, io, binascii, webbrowser
+from unittest.mock import MagicMock
 from tkinter import ttk 
+
+from tests.utils import prepare_image
 from PIL import Image, ImageTk
-# import view
 from view import program_view
 from view import tables_section
 from view import teams_section
 from view import matches_section
 from view import players_section
-from unittest.mock import MagicMock 
 
-def get_teams_mocked_database():
-    json_file_path = r"M:\projects\Python\PremierLeague\tests\mocks_data\mock_teams_data_json.json"
+@pytest.fixture
+def teams_mocked_database():
+    json_file_path = r"M:\projects\Python\PremierLeague\tests\fixtures\mock_teams_data_json.json"
     
     with open(json_file_path) as json_file:
-        database_mock = json.load(json_file)
+        mock_database = json.load(json_file)
     
-    return database_mock
+    return mock_database
 
-def get_matches_mocked_database():
-    json_file_path = r"M:\projects\Python\PremierLeague\tests\mocks_data\mock_matches_data.json"
-    
-    with open(json_file_path) as json_file:
-        database_mock = json.load(json_file)
-
-    return database_mock
-
-def get_tables_mocked_database():
-    json_file_path = r'M:\projects\Python\PremierLeague\tests\mocks_data\mock_tables_data.json'
+@pytest.fixture
+def matches_mocked_database():
+    json_file_path = r"M:\projects\Python\PremierLeague\tests\fixtures\mock_matches_data.json"
     
     with open(json_file_path) as json_file:
-        database_mock = json.load(json_file)
+        mock_database = json.load(json_file)
 
-    return database_mock
+    return mock_database
 
-def get_players_mocked_database():
-    json_file_path = r'M:\projects\Python\PremierLeague\tests\mocks_data\mock_players_data.json'
+@pytest.fixture
+def tables_mocked_database():
+    json_file_path = r'M:\projects\Python\PremierLeague\tests\fixtures\mock_tables_data.json'
     
     with open(json_file_path) as json_file:
-        database_mock = json.load(json_file)
+        mock_database = json.load(json_file)
 
-    return database_mock
+    return mock_database
 
+@pytest.fixture
+def players_mocked_database():
+    json_file_path = r'M:\projects\Python\PremierLeague\tests\fixtures\mock_players_data.json'
+    
+    with open(json_file_path) as json_file:
+        mock_database = json.load(json_file)
+
+    return mock_database
+
+@pytest.fixture
 def test_program_window_preparation(mocker):
 
     def mock_section(section_name):
@@ -156,52 +162,31 @@ def test_matches_section_view(container=None):
     else:
         return section
 
-def test_tables_section_view(container):
-    if not container:
-        container = tkinter.Tk()
-        container.resizable(False, True)
-        # container.geometry('600x600')
-
-    def resize_image_with_width(image, width):
-        image_width, image_height = image.size
-        image_ratio = image_width / image_height
-        new_image_width = width
-        new_image_height = int(new_image_width / image_ratio)
-
-        image = image.resize((new_image_width, new_image_height))
-        return image
-
-    def prepare_image(image_data, width):
-        image = Image.open(io.BytesIO(binascii.unhexlify(image_data)))
-        image = resize_image_with_width(image, width)
-        image = ImageTk.PhotoImage(image)
-        return image
+def test_tables_section_view(tables_mocked_database, teams_mocked_database):
+    container = tkinter.Tk()
+    container.resizable(False, True)
+    # container.geometry('600x600')    
 
     def mock_get_tables_data(logos_width=25, *args, **kwargs):
-        tables_mocked_database = get_tables_mocked_database()
-        teams_mocked_database = get_teams_mocked_database()
-
         team_logos = {record['id']:record['logo'] for record in teams_mocked_database}
         for record in tables_mocked_database:
             team_logo_data = team_logos[record['team_id']]
             record['team_logo'] = prepare_image(team_logo_data, logos_width)
         
-        tables_mocked_database.sort(key=lambda record: record['points'])
+        tables_mocked_database.sort(key=lambda record: record['points'], reverse=True   )
         return tables_mocked_database
 
     mock_tables_callback = MagicMock()
     mock_tables_callback.get_tables_data = mock_get_tables_data
 
     section = tables_section.TablesSection(container=container, callback=mock_tables_callback)
-    if not container:
-        section.widget.pack(fill='both', expand=True)
+    
+    section.widget.pack(fill='both', expand=True)
 
-        container.mainloop()
-    else:
-        return section
+    container.mainloop()
 
 
-def test_teams_section_view(container=None):
+def test_teams_section_view():
     if not container:
         container = tkinter.Tk()
     # root.geometry("500x500")
@@ -227,17 +212,9 @@ def test_teams_section_view(container=None):
             record['logo'] = prepare_image(image_data=record['logo'], width=logos_width)
 
         return teams_mocked_database
-    
-    def mock_open_webbrowser_closure(url):
-        def func():
-            nonlocal url
-            webbrowser.open(url)
-
-        return func
 
     mock_teams_section_callback = MagicMock()
     mock_teams_section_callback.get_teams_data = mock_get_teams_data
-    mock_teams_section_callback.open_webbrowser_closure = mock_open_webbrowser_closure
 
     section = teams_section.TeamsSection(container=container, callback=mock_teams_section_callback)
     if not container:
@@ -248,13 +225,8 @@ def test_teams_section_view(container=None):
         return section
     
 
-def test_players_section_view(container=None):
-    if not container:        
-        container = tkinter.Tk()
-    
-    players_mocked_database = get_players_mocked_database()
-    teams_mocked_database = get_teams_mocked_database()
-
+def test_players_section_view(players_mocked_database, teams_mocked_database):        
+    container = tkinter.Tk()
 
     def resize_image_with_width(image, width):
         image_width, image_height = image.size
@@ -274,9 +246,9 @@ def test_players_section_view(container=None):
     def mock_get_players_data(team_name, player_picture_width):
         nonlocal players_mocked_database, teams_mocked_database
 
-        team_names = {record['id'] : record['team_name'] for record in teams_mocked_database}
+        team_id = {record['team_name'] : record['id'] for record in teams_mocked_database}[team_name]
         
-        team_players = list(filter(lambda record: team_names[record['team']] == team_name, players_mocked_database))
+        team_players = list(filter(lambda record: record['team'] == team_id, players_mocked_database))
 
         sorted_dict = dict()
 
@@ -298,14 +270,11 @@ def test_players_section_view(container=None):
     
     mock_players_callback = MagicMock()
     mock_players_callback.get_players_data = mock_get_players_data
-    mock_players_callback.get_teams_list = mock_get_teams_list
+    mock_players_callback.get_teams_data = mock_get_teams_list
 
     section = players_section.PlayersSection(container=container, callback=mock_players_callback)
-    if not container:
-        section.widget.pack(fill='both', expand=True)
+    section.widget.pack(fill='both', expand=True)
 
-        container.mainloop()
-    else:
-        return section
+    container.mainloop()
 
 

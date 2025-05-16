@@ -1,7 +1,7 @@
 from .interfaces.match_data_scraper import IMatchDataScraper
 from .utils import UrlValidator
 from .request_handler import PlaywrightRequestHandler
-from .interfaces.premierleague_website_scraper import PremierleagueWebsiteScraper
+from .premierleague_website_scraper import PremierleagueWebsiteScraper
 from playwright.async_api import async_playwright
 import re
 

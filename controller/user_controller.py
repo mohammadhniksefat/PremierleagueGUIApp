@@ -22,8 +22,8 @@ class MatchesSectionController:
         self.matches_database_controller = ModelFactory.create_model(model='matches')
 
     def _prepare_team_logos(self, width):
-        logo_datas = self.teams_database_controller.get_specific_column(column="logo", sort_by="name")
-        return {team_name: ImageManager.create_image_object(logo_data, width) for team_name, logo_data in logo_datas.items()}
+        team_logo_binary_datas = self.teams_database_controller.get_specific_column(column="logo", sort_by="name")
+        return {team_name: ImageManager.create_image_object(logo_data, width) for team_name, logo_data in team_logo_binary_datas.items()}
         
     def _get_team_names(self):
         return self.teams_database_controller.get_specific_column(column='name', sort_by='id')
@@ -51,11 +51,6 @@ class TablesSectionController:
         self.tables_database_controller = ModelFactory.create_model(model='tables')
         self.teams_database_controller = ModelFactory.create_model(model='teams')
 
-    def get_tables_data(self, logos_width=35):
-        tables_data_dict = self.tables_database_controller.get_records()
-        tables_data_dict = TablesDataFormatter.format_data(tables_data_dict, self._get_team_names() , self._prepare_team_logos(width=logos_width))
-        return tables_data_dict
-
     def _get_team_names(self):
         team_names = self.teams_database_controller.get_specific_column(column='team_name', sort_by='id')
         return team_names
@@ -63,7 +58,12 @@ class TablesSectionController:
     def _prepare_team_logos(self, width):
         team_logo_binary_datas = self.teams_database_controller.get_specific_column(column='logo', sort_by='team_name')
         team_logos = {team_name: ImageManager.create_image_object(logo_data, width) for team_name, logo_data in team_logo_binary_datas.items()}
+
         return team_logos
+    def get_tables_data(self, logos_width=35):
+        tables_data_dict = self.tables_database_controller.get_records()
+        tables_data_dict = TablesDataFormatter.format_data(tables_data_dict, self._get_team_names() , self._prepare_team_logos(width=logos_width))
+        return tables_data_dict
 
 class TeamsSectionController:
     def __init__(self):
@@ -74,25 +74,18 @@ class TeamsSectionController:
         data = TeamsDataFormatter.format_data(data, logos_width)
         return data
 
-    def open_webbrowser_closure(self, url):
-        def func():
-            nonlocal url
-            webbrowser.open(url)
-
-        return func
-
 class PlayersSectionController:
     def __init__(self):
         self.player_database_controller = ModelFactory.create_model(model='players')
-        self.teams_databaes_controller = ModelFactory.create_model(model='teams')
+        self.teams_database_controller = ModelFactory.create_model(model='teams')
 
     def get_players_data(self, team_name, picture_width):
         team_players = self.teams_database_controller.get_records(team_name=team_name)
         team_players = TeamsDataFormatter.format_data(team_players, picture_width)
         return team_players
     
-    def get_teams_list(self, logos_width):
-        team_logos = self.teams_databaes_controller.get_specific_column(column='team_logo', sort_by='team_name')
+    def get_teams_data(self, logos_width):
+        team_logos = self.teams_database_controller.get_specific_column(column='logo', sort_by='name')
 
         teams_list = [{'team_name':team_name, 'team_logo':team_logo} for team_name, team_logo in team_logos.items()]
 

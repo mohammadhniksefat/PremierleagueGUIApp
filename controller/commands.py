@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class ICommand:
+class ICommand(ABC):
     base_name: str
     description: str
 

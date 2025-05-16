@@ -10,9 +10,9 @@ class TablesSection:
 
     def _prepare_section(self):
         self._create_columns_title_row()
-        self.tables_data.reverse()
-        for row_number, record in enumerate(self.tables_data, start=1):
-            self._create_record_row(record, row_number)
+        # self.tables_data.reverse()
+        for record in self.tables_data:
+            self._create_record_row(record)
         padding_bottom = tkinter.Frame(self.widget)
         padding_bottom.grid(pady=40)
 
@@ -78,7 +78,8 @@ class TablesSection:
         points_title_label.pack(side='left')
         self.container.columnconfigure(9, weight=1)
 
-    def _create_record_row(self, record, position):
+    def _create_record_row(self, record):
+        position = record['position']
 
         position_title_container = tkinter.Frame(self.widget)
         position_title_container.grid(row=position, column=0, columnspan=3, sticky='ew', padx=8, pady= 8)
