@@ -8,11 +8,10 @@ class TablesDataScraper(PremierleagueWebsiteScraper, ITablesDataScraper):
         super().__init__()
         if not url:
             url = "https://www.premierleague.com/tables"
-    
+
         self._base_url = url
 
         self._initialized = False
-        
         
     async def initialize(self):
         self._request_handler = RequestHandler()
@@ -34,7 +33,7 @@ class TablesDataScraper(PremierleagueWebsiteScraper, ITablesDataScraper):
             standings.append(await self._extract_data_from_tr_tag(table_row))
 
         return standings
-    
+
     async def _extract_data_from_tr_tag(self, table_row):
         result = dict()
 

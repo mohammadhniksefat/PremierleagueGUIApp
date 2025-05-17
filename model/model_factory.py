@@ -7,7 +7,7 @@ class ModelFactory:
     @staticmethod
     def create_model(model, db_address=None):
         if not db_address:
-            db_address = str(Path(__file__).parent / "data" / "main_database.db")
+            db_address = str(Path(__file__).parent / "../" / "data" / "main_database.db")
 
         if DatabaseTypeChecker.check_sqlite_db(db_address):
             if model == 'players':

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 class BaseModel(ABC):    
     @abstractmethod
-    def create_table_if_not_exists(self): pass
+    def create_table_if_not_exist(self): pass
 
     @abstractmethod
     def get_records(self): pass
@@ -26,11 +26,13 @@ class BaseModel(ABC):
     def get_column_names(self): pass
 
     @abstractmethod
-    def get_required_columns_names(self): pass
+    def get_required_column_names(self): pass
+
+    @abstractmethod
+    def get_unique_constraint(self) -> list[str]: pass
 
 class TeamsModel(BaseModel, ABC):
-    @abstractmethod
-    def get_team_id_by_its_name(self, team_name): pass
+    pass
 
 class MatchesModel(BaseModel, ABC):
     @abstractmethod
