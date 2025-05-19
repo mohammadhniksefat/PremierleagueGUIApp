@@ -1,30 +1,4 @@
-import re, requests
-from urllib3.util.retry import Retry
-from requests.adapters import HTTPAdapter
-
-
-class Utils:
-    def create_session_dec(func):
-        def new_func(*args, **kwargs):
-
-            session = requests.Session()
-            retry = Retry(connect=3, backoff_factor=0.5)
-            adapter = HTTPAdapter(max_retries=retry)
-            session.mount('https://', adapter)
-            session.mount('http://', adapter)
-
-            func(session, *args, **kwargs)
-
-        return new_func
-    
-    def create_session():
-        session = requests.Session()
-        retry = Retry(connect=3, backoff_factor=0.5)
-        adapter = HTTPAdapter(max_retries=retry)
-        session.mount('https://', adapter)
-        session.mount('http://', adapter)
-
-
+import re
 
 class UrlValidator:
     @staticmethod

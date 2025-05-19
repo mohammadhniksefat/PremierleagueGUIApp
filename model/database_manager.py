@@ -6,6 +6,8 @@ class DatabaseManager:
 
 class SQliteDatabaseManager(DatabaseManager):
     def configure_model(self, model):
+        super().__init__()
+
         self._connection = sqlite3.connect(model.database_address)
 
         model.connection = self._connection

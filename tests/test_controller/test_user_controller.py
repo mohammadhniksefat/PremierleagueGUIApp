@@ -102,14 +102,14 @@ def test_get_week_data(mock_create_model, mock_create_image_object, mock_format_
     mock_create_model.side_effect = model_creator_side_effect
 
     # Define behavior for get_specific_column depending on input arguments
-    def mock_get_specific_column(column, sort_by):
-        if column == 'name' and sort_by == 'id':
+    def mock_get_specific_column(column, key):
+        if column == 'name' and key == 'id':
             return fake_team_names  # Called during _get_team_names
-        elif column == 'logo' and sort_by == 'name':
+        elif column == 'logo' and key == 'name':
             return fake_team_logos  # Called during _prepare_team_logos
         else:
             # Fail if unexpected arguments are passed
-            pytest.fail(f'unexpected arguments to get_specific_column method of teams model : column: {column}, sort_by: {sort_by}') 
+            pytest.fail(f'unexpected arguments to get_specific_column method of teams model : column: {column}, key: {key}') 
 
     # Assign side effect to simulate data retrieval for names and logos
     mock_teams_database_controller.get_specific_column.side_effect = mock_get_specific_column
@@ -143,6 +143,66 @@ def test_get_week_data(mock_create_model, mock_create_image_object, mock_format_
 
     # Assert the final result matches the expected formatted data
     assert result == formatted_data
+
+@patch('model.model_factory.ModelFactory.create_model')
+def test_get_this_week_number(mock_model_creator):
+    mock_matches_database_model = MagicMock()
+
+    def mock_model_factory(model):
+        if model == 'matches':
+            return mock_matches_database_model
+        else:
+            return None
+
+    mock_model_creator.side_effect = mock_model_factory
+    matches_section_controller = MatchesSectionController()
+
+    mock_timestamps = {1: 1000, 2: 2000}
+    mock_nearest_id = 2
+    mock_week_number = 5
+
+    # Mock methods
+    matches_section_controller._find_nearest_id = MagicMock(return_value=mock_nearest_id)
+    matches_section_controller.matches_database_controller.get_specific_column.return_value = mock_timestamps
+    matches_section_controller.matches_database_controller.get_records.return_value = {
+        "id": mock_nearest_id, "week_number": mock_week_number
+    }
+
+    result = matches_section_controller.get_this_week_number()
+
+    # Assertions
+    matches_section_controller.matches_database_controller.get_specific_column.assert_called_once_with('timestamp', 'id')
+    matches_section_controller._find_nearest_id.assert_called_once_with(mock_timestamps)
+    matches_section_controller.matches_database_controller.get_records.assert_called_once_with(id=mock_nearest_id)
+
+    assert result == mock_week_number
+
+
+@patch("controller.user_controller.datetime")
+def test_find_nearest_id(mock_datetime):
+    now = datetime.datetime(2025, 1, 1, 12, 0, 0)
+    mock_datetime.datetime.now.return_value = now
+  
+    future_time_1 = int((now - datetime.timedelta(days=1)).timestamp())
+    future_time_2 = int((now - datetime.timedelta(hours=1)).timestamp())
+    future_time_3 = int((now - datetime.timedelta(days=2)).timestamp())
+    future_time_4 = int((now + datetime.timedelta(days=1)).timestamp())
+    future_time_5 = int((now + datetime.timedelta(hours=1)).timestamp())
+    future_time_6 = int((now + datetime.timedelta(days=2)).timestamp())
+
+    timestamps = {
+        1: future_time_1,
+        2: future_time_2,  
+        3: future_time_3,
+        4: future_time_4,  # This is the closest
+        5: future_time_5,
+        6: future_time_6
+    }
+    with patch('model.model_factory.ModelFactory.create_model', return_value=None):
+        controller = MatchesSectionController()
+        result = controller._find_nearest_id(timestamps)
+
+    assert result == 4
 
 # ======== Test TablesSectionController class ========
 
@@ -196,14 +256,14 @@ def test_get_tables_data(mock_create_model, mock_create_image_object, mock_forma
     # First create_model call returns tables, second returns teams
     mock_create_model.side_effect = model_creator_side_effect
 
-    # Mock get_specific_column behavior based on column + sort_by
-    def mock_get_specific_column(column, sort_by):
-        if column == 'team_name' and sort_by == 'id':
+    # Mock get_specific_column behavior based on column + key
+    def mock_get_specific_column(column, key):
+        if column == 'team_name' and key == 'id':
             return fake_team_names
-        elif column == 'logo' and sort_by == 'team_name':
+        elif column == 'logo' and key == 'team_name':
             return fake_logos
         else:
-            pytest.fail(f"Unexpected arguments to get_specific_column: column={column}, sort_by={sort_by}")
+            pytest.fail(f"Unexpected arguments to get_specific_column: column={column}, key={key}")
 
     mock_teams_database_controller.get_specific_column.side_effect = mock_get_specific_column
 

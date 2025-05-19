@@ -1,7 +1,6 @@
-from model.models import base_model
 from pathlib import Path
 from model.database_manager import SQliteDatabaseManager
-from model.models.base_model import BaseModel
+from model.models.base_model import BaseModel, TeamsModel, MatchesModel, PlayersModel, TablesModel
 import sqlite3, math
 
 def load_schema(schema_address):
@@ -19,10 +18,14 @@ class SQliteModel(BaseModel):
     def __init__(self, database_address, table_name):
         # the cursor and connection will be set in database manager
         self.cursor: sqlite3.Cursor
-        self_connection: sqlite3.Connection
+        self.connection: sqlite3.Connection
 
         self.database_address = database_address
         self.table_name = table_name
+
+        self.initialize()
+
+    def initialize(self):
         self.unique_constraint: list[str] = self.get_unique_constraint()
         self.column_names = self.get_column_names()
         self.required_columns = self.get_required_column_names()
@@ -49,25 +52,31 @@ class SQliteModel(BaseModel):
 
         return self.cursor.fetchall()
 
-    def get_specific_column(self, column, sort_by=None):
-        """Retrieve a specific column from the table, optionally sorting the results."""
-        # Validate the column and sort_by to prevent SQL injection
-        valid_columns = self.get_table_columns()
+    def get_specific_column(self, column, key=None):
+        """
+        Retrieve values from a specific column. If `key` is provided, return a dictionary
+        where keys are values from the `key` column and values are from the `column` column.
         
+        :param column: The target column to fetch values from.
+        :param key: Optional column to use as dictionary keys.
+        :return: List of values if key is None, else a dict with key-value mapping.
+        """
+        valid_columns = self.get_table_columns()
+
         if column not in valid_columns:
             raise ValueError(f"Invalid column: {column}")
-        
-        if sort_by and sort_by not in valid_columns:
-            raise ValueError(f"Invalid sort column: {sort_by}")
 
-        # Build the SQL query
-        sql = f"SELECT {column} FROM {self.table_name}"
-        if sort_by:
-            sql += f" ORDER BY {sort_by}"
+        if key is not None and key not in valid_columns:
+            raise ValueError(f"Invalid key column: {key}")
 
-        # Execute query and return results
-        self.cursor.execute(sql)
-        return self.cursor.fetchall()
+        if key:
+            query = f"SELECT {key}, {column} FROM {self.table_name}"
+            self.cursor.execute(query)
+            return {row[0]: row[1] for row in self.cursor.fetchall()}
+        else:
+            query = f"SELECT {column} FROM {self.table_name}"
+            self.cursor.execute(query)
+            return [row[0] for row in self.cursor.fetchall()]
 
     def get_records_count(self):
         """Returns the total number of records in the table."""
@@ -82,11 +91,8 @@ class SQliteModel(BaseModel):
         if not dictionary:
             raise ValueError("Empty dictionary provided. No data to insert.")
 
-        # Get all columns and required columns
-        required_columns = self.get_required_columns()
-
         # Ensure all required columns are in dictionary
-        missing_columns = required_columns - dictionary.keys()
+        missing_columns = self.required_columns - dictionary.keys()
         if missing_columns:
             raise ValueError(f"Missing required columns: {', '.join(missing_columns)}")
 
@@ -107,7 +113,7 @@ class SQliteModel(BaseModel):
     def get_column_names(self):
         self.cursor.execute(f"PRAGMA table_info({self.table_name})")
         return {row[1] for row in self.cursor.fetchall()}
-    
+
     def get_required_column_names(self):
         """Returns a set of columns that have a NOT NULL constraint."""
         self.cursor.execute(f"PRAGMA table_info({self.table_name})")
@@ -117,7 +123,7 @@ class SQliteModel(BaseModel):
         required_columns = {row[1] for row in columns_info if row[3] == 1}
 
         return required_columns
-    
+
     def delete_records(self, **kwargs):
         """Deletes records from the table matching the provided keyword arguments and returns the deleted records as dictionaries."""
         if not kwargs:
@@ -159,7 +165,8 @@ class SQliteModel(BaseModel):
         return deleted_records_dict
 
     def is_record_exists(self, **kwargs):
-        return self.get_records(**kwargs) is not None
+        records = self.get_records(**kwargs)
+        return bool(records)  # Explicit check for empty list
     
     def get_table_unique_constraint(self) -> list[str]:
         self.cursor.execute(f"PRAGMA table_info('{self.table_name}')")
@@ -232,69 +239,25 @@ class SQliteModel(BaseModel):
         
         self.connection.commit()
 
-class PlayersModel(SQliteModel, base_model.PlayersModel):
+class PlayersModel(SQliteModel, PlayersModel):
     def __init___(self, database_address):
         table_name = 'players'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()
 
-class TeamsModel(SQliteModel, base_model.TeamsModel):
+class TeamsModel(SQliteModel, TeamsModel):
     def __init___(self, database_address):
         table_name = 'teams'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()
 
-    def get_team_id_by_its_name(self, team_name):
-        # SQL query to find the team ID by team name
-        self.cursor.execute("SELECT id FROM teams WHERE team_name = ?", (team_name,))
-        result = self.cursor.fetchone()  # Fetch the first matching row
-        
-        if result:
-            return result[0]  # The 'id' column is the first element in the row
-        else:
-            return None  # If no team with the given name is found
-
-class MatchesModel(SQliteModel, base_model.MatchesModel):    
+class MatchesModel(SQliteModel, MatchesModel):    
     def __init___(self, database_address):
         table_name = 'matches'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()
-
-    def get_records_within_period(self, timestamp, period):
-        if period == 'week':
-            database = self.get_records()
-            timestamps_list = [record['timestamp'] for record in database]
-
-            timestamp = timestamp
-            last_index = len(timestamps_list)
-            first_index = closest_index = 0
-
-            while True:
-                minimum_timestamp = timestamps_list[first_index]
-                maximum_timestamp = timestamps_list[last_index]
-
-                a_day_seconds = 24 * 60 * 60 
-                if timestamp - minimum_timestamp < a_day_seconds:
-                    closest_index = first_index + 1
-                    break
-                elif maximum_timestamp - timestamp < a_day_seconds or last_index - first_index == 1:
-                    closest_index = last_index
-                    break
-
-                middle_index = math.ceil(last_index/2)
-                if abs(timestamp - minimum_timestamp) < abs(maximum_timestamp - timestamp):
-                    last_index = middle_index
-                else:
-                    first_index = middle_index
-            
-            week_number = database[closest_index]['week_number']
-            filtered_records = list(filter(lambda record: record['week_number'] == week_number, database))
-            return filtered_records
-
-    def update_record(self, data):
-        pass
     
-class TablesModel(SQliteModel, base_model.TablesModel):
+class TablesModel(SQliteModel, TablesModel):
     def __init___(self, database_address):
         table_name = 'tables'
         super().__init__(database_address, table_name)

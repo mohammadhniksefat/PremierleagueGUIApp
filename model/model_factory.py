@@ -1,25 +1,32 @@
 import sqlite3
-from . import models
+from model.models import sqlite_models
 from pathlib import Path
 
 class ModelFactory:
     
-    @staticmethod
-    def create_model(model, db_address=None):
+    @classmethod
+    def create_model(cls, table_name, db_address=None):
         if not db_address:
-            db_address = str(Path(__file__).parent / "../" / "data" / "main_database.db")
+            db_address = cls._get_default_db_address()
 
         if DatabaseTypeChecker.check_sqlite_db(db_address):
-            if model == 'players':
-                return models.sqlite_models.PlayersModel(db_address)
-            elif model == 'teams':
-                return models.sqlite_models.TeamsModel(db_address)
-            elif model == 'matches':
-                return models.sqlite_models.MatchesModel(db_address)
-            elif model == 'tables':
-                return models.sqlite_models.TablesModel(db_address)
+            models = {
+                'players': sqlite_models.PlayersModel,
+                'teams': sqlite_models.TeamsModel,
+                'matches': sqlite_models.MatchesModel,
+                'tables': sqlite_models.TablesModel
+            }
+            try:
+                return models[table_name](db_address)
+            except KeyError:
+                raise ValueError("Unknown table name!")
         else:
             raise ValueError("invalid database type!")
+        
+    @classmethod
+    def _get_default_db_address():
+        db_address = str(Path(__file__).parent / "../" / "data" / "main_database.db")
+        return db_address
             
 class DatabaseTypeChecker:
     @staticmethod
@@ -29,6 +36,4 @@ class DatabaseTypeChecker:
             conn.close()
             return True
         except sqlite3.DatabaseError:
-            return False
-        
-
+            return False      

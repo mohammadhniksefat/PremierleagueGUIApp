@@ -8,7 +8,7 @@ class BaseModel(ABC):
     def get_records(self): pass
 
     @abstractmethod
-    def get_specific_column(self, column, sort_by=None): pass
+    def get_specific_column(self, column, key=None): pass
 
     @abstractmethod
     def get_records_count(self): pass
