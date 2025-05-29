@@ -1,4 +1,4 @@
-import random, re, asyncio, aiohttp, signal
+import random, asyncio, aiohttp, signal
 from threading import Lock
 
 
@@ -29,6 +29,7 @@ class RequestHandler:
             self._scheduler_task  = asyncio.create_task(self._scheduler())
             self._register_shutdown_hooks()
             self._is_configured = True
+            self._shutdown_started = False
 
     def _register_shutdown_hooks(self):
         loop = asyncio.get_running_loop()
@@ -44,7 +45,7 @@ class RequestHandler:
                 def sync_shutdown(*_):
                     try:
                         loop = asyncio.get_running_loop()
-                        loop.create_task(self.shutdown)
+                        loop.create_task(self.shutdown())
                     except RuntimeError:
                         # Event loop might already be closed
                         asyncio.run(self.shutdown())
@@ -56,21 +57,22 @@ class RequestHandler:
             batch = []
             for _ in range(self.batch_size):
                 try:
-                    coro = await asyncio.wait_for(self.queue.get(), timeout=5)
-                    batch.append(asyncio.create_task(coro()))
+                    coro = await asyncio.wait_for(self.queue.get(), timeout=1)
+                    task = asyncio.create_task(coro())
+                    batch.append(task)
                 except asyncio.TimeoutError:
-                    await asyncio.sleep(1)
-                    break  # No more tasks for now
+                    await asyncio.sleep(0.1)
+                    break
 
             if batch:
-                await asyncio.gather(*batch)
+                await asyncio.gather(*batch, return_exceptions=True)
                 self.batch_size = random.randint(3, 5)
                 delay = random.randint(5, 10)
                 await asyncio.sleep(delay)
 
     async def get(self, url, raw=False):
         if not self._is_configured:
-            raise RuntimeError("RequestHandler not configured yet. Call await handler.configure() first.")
+            raise RuntimeError("RequestHandler not configured yet. Call 'await handler.configure()' first.")
         
         headers = {
             "User-Agent": random.choice(self.USER_AGENTS)
@@ -82,12 +84,12 @@ class RequestHandler:
         async def fetch():
             try:
                 async with self.session.get(url, headers=headers) as response:
-                    result = await response.content() if raw else await response.text()
+                    result = await response.read() if raw else await response.text()
                     future.set_result(result)
             except Exception as e:
                 future.set_exception(e)
             
-        self.queue.put_nowait(lambda: fetch())
+        self.queue.put_nowait(fetch)
         return await future
 
     async def shutdown(self):
@@ -152,10 +154,10 @@ class PlaywrightRequestHandler:
             batch = []
             for _ in range(self.batch_size):
                 try:
-                    coro = await asyncio.wait_for(self.queue.get(), timeout=5)
+                    coro = await asyncio.wait_for(asyncio.shield(self.queue.get()), timeout=1)
                     batch.append(asyncio.create_task(coro()))
                 except asyncio.TimeoutError:
-                    await asyncio.sleep(1)
+                    await asyncio.sleep(0.1)
                     break  # No more tasks for now
 
             if batch:
@@ -175,7 +177,7 @@ class PlaywrightRequestHandler:
             await asyncio.wait_for(page.goto(url), timeout=30)
             future.set_result(None)
         
-        self.queue.put_nowait(lambda : coroutine())
+        self.queue.put_nowait(coroutine())
         return await future
 
     async def shutdown(self):
