@@ -64,26 +64,15 @@ class PlayersSection:
         canvas.bind("<Configure>", update_window_position)
 
         for index, team_data in enumerate(self.teams_data):
-            # team_button = tkinter.Frame(self.teams_list_widget, width=50)
-            # team_logo = tkinter.Label(team_button, image=team_data['team_logo'])
-            # team_logo.pack(side='right')
-            # team_name = tkinter.Label(team_button, text=team_data['team_name'])
-            # team_name.pack(side='right')
-
             team_button = ttk.Button(self.teams_list_widget, text=team_data['team_name'], image=team_data['team_logo'], compound='right')
             team_button.pack(side='top', anchor='e', fill='x')
             team_button.configure(command=self._change_team_list_closure(team_data['team_name'], team_button))
             team_button.team_name = team_data['team_name']     # FIXME
             
-            # team_button.bind("<Button-1>", self._change_team_list_closure(team_data['team_name'], team_name))
-
             if index == 0:
                 self.active_button = team_button
                 self.active_button.state(['pressed'])
 
-            #     team_button.configure(bg='gray')
-
-            
     def _prepare_players_list_widget(self, team_name):
         
         if team_name in self.players_data_cache.keys():

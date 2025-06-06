@@ -3,6 +3,7 @@ import os
 from sqlite3 import DatabaseError
 from unittest.mock import patch, MagicMock
 from model.model_factory import ModelFactory, DatabaseTypeChecker
+from model import model_factory
 from pathlib import Path
 
 # ---------------------------
@@ -49,7 +50,7 @@ def test_create_model_invalid_database():
 
 def test_get_default_db_address_resolves_path():
     default_path = ModelFactory._get_default_db_address()
-    expected_path = str(Path(__file__).parent / "../" / "data" / "main_database.db")
+    expected_path = str(Path(model_factory.__file__).parent.parent / "model" / "data" / "main_database.db")
     assert default_path == expected_path
 
 def test_get_default_db_address_exists():

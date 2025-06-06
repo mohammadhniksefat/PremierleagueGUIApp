@@ -157,7 +157,7 @@ class MatchDataScraper(PremierleagueWebsiteScraper, IMatchDataScraper):
         async with async_playwright() as p:
             async with await p.chromium.launch(headless=True) as browser:
                 page = await browser.new_page()
-                page.set_default_timeout(0)
+                page.set_default_timeout(0) # FIXME
                 await self._request_handler.goto(page, self._base_url)
                 return await callback(page)
 

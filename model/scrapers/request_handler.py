@@ -7,11 +7,27 @@ class RequestHandler:
     _lock = Lock()
 
     USER_AGENTS = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64)...", #FIXME
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...",
-        "Mozilla/5.0 (X11; Linux x86_64)...",
-        # Add more real User-Agent strings here
-    ]
+    # Chrome on Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Safari/537.36",
+
+    # Safari on macOS
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Safari/605.1.15",
+
+    # Firefox on Ubuntu
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0",
+
+    # Chrome on Android
+    "Mozilla/5.0 (Linux; Android 13; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Mobile Safari/537.36",
+
+    # Safari on iPhone
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 16_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.4 Mobile/15E148 Safari/604.1",
+
+    # Edge on Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Safari/537.36 Edg/123.0.2420.65",
+
+    # Brave on macOS (Brave uses the Chrome engine, but identifies itself differently)
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.6312.86 Safari/537.36 Brave/123.1.59.120"
+]
 
     def __new__(cls):
         with cls._lock:
@@ -21,13 +37,29 @@ class RequestHandler:
 
         return cls._instance
 
+    @classmethod
+    def reset(cls):
+        cls._instance = None
+
     async def configure(self):
-        if not self._is_configured:
-            self.batch_size = random.randint(3, 5)
+        current_loop = asyncio.get_running_loop()
+
+        if not self._is_configured or self._scheduler_loop != current_loop:
+            if hasattr(self, '_scheduler_task'):
+                try:
+                    await self.session.close()
+
+                    self._scheduler_task.cancel()
+                    await self._scheduler_task
+                except asyncio.CancelledError:
+                    pass
+
             self.queue = asyncio.Queue()
             self.session = aiohttp.ClientSession()
-            self._scheduler_task  = asyncio.create_task(self._scheduler())
+            self._batch_size = random.randint(3, 5)
             self._register_shutdown_hooks()
+            self._scheduler_task = asyncio.create_task(self._scheduler())
+            self._scheduler_loop = current_loop  # Track current loop
             self._is_configured = True
             self._shutdown_started = False
 
@@ -55,18 +87,18 @@ class RequestHandler:
     async def _scheduler(self):
         while True:
             batch = []
-            for _ in range(self.batch_size):
+            for _ in range(self._batch_size):
                 try:
                     coro = await asyncio.wait_for(self.queue.get(), timeout=1)
-                    task = asyncio.create_task(coro())
+                    task = asyncio.create_task(coro)
                     batch.append(task)
                 except asyncio.TimeoutError:
                     await asyncio.sleep(0.1)
                     break
 
             if batch:
-                await asyncio.gather(*batch, return_exceptions=True)
-                self.batch_size = random.randint(3, 5)
+                await asyncio.gather(*batch)
+                self._batch_size = random.randint(3, 5)
                 delay = random.randint(5, 10)
                 await asyncio.sleep(delay)
 
@@ -89,7 +121,7 @@ class RequestHandler:
             except Exception as e:
                 future.set_exception(e)
             
-        self.queue.put_nowait(fetch)
+        self.queue.put_nowait(fetch())
         return await future
 
     async def shutdown(self):
@@ -111,7 +143,11 @@ class RequestHandler:
 
 class PlaywrightRequestHandler:
     _instance = None
-    _lock = asyncio.Lock()
+    _lock = Lock()
+
+    @classmethod
+    def reset(cls):
+        cls._instance = None
 
     def __new__(cls):
         with cls._lock:
@@ -122,10 +158,11 @@ class PlaywrightRequestHandler:
             
     async def configure(self):
         if not self._is_configured:
-            self.batch_size = random.randint(3, 5)
+            self._batch_size = random.randint(3, 5)
             self.queue = asyncio.Queue()
             self._schedular_task = asyncio.create_task(self._scheduler())
             self._register_shutdown_hooks()
+            self._shutdown_started = False
             self._is_configured = True
 
     def _register_shutdown_hooks(self):
@@ -143,26 +180,27 @@ class PlaywrightRequestHandler:
                 def sync_shutdown(*_):
                     try:
                         loop = asyncio.get_running_loop()
-                        loop.create_task(self.shutdown)
+                        loop.create_task(self.shutdown())
                     except RuntimeError:
                         # Event loop might already be closed
                         asyncio.run(self.shutdown())
                 signal.signal(sig, sync_shutdown)
 
     async def _scheduler(self):
+        # raise ValueError
         while True:
             batch = []
-            for _ in range(self.batch_size):
+            for _ in range(self._batch_size):
                 try:
                     coro = await asyncio.wait_for(asyncio.shield(self.queue.get()), timeout=1)
-                    batch.append(asyncio.create_task(coro()))
+                    batch.append(asyncio.create_task(coro))
                 except asyncio.TimeoutError:
                     await asyncio.sleep(0.1)
                     break  # No more tasks for now
 
             if batch:
                 await asyncio.gather(*batch)
-                self.batch_size = random.randint(3, 5)
+                self._batch_size = random.randint(3, 5)
                 delay = random.randint(5, 10)
                 await asyncio.sleep(delay)
 

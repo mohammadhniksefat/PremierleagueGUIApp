@@ -36,8 +36,8 @@ class ClubDataScraper(PremierleagueWebsiteScraper, IClubDataScraper):
 
         self._structures = dict()
 
-        self._structures['main_page'] = BeautifulSoup(directory_page_structure, 'html.parser') 
-        self._structures['directory_page'] = BeautifulSoup(main_page_structure, 'html.parser')
+        self._structures['main_page'] = BeautifulSoup(main_page_structure, 'html.parser') 
+        self._structures['directory_page'] = BeautifulSoup(directory_page_structure, 'html.parser')
 
         self._initialized = True
 
@@ -119,9 +119,8 @@ class ClubDataScraper(PremierleagueWebsiteScraper, IClubDataScraper):
 
         logo_url = self._structures['main_page'].select_one('.club-header__content img.club-header__badge')
         logo_url = logo_url['src']
-        print(logo_url)
-        logo_request = await self._request_handler.get(logo_url)
-        self.club_data['logo'] = logo_request.content
+        logo_data = await self._request_handler.get(logo_url, raw=True)
+        self.club_data['logo'] = logo_data
 
         return self.club_data['logo']
     

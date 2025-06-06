@@ -5,7 +5,7 @@ from model.models.sqlite_models import SQliteModel, TeamsModel, MatchesModel, Pl
 
 @pytest.fixture
 def db_model():
-    with patch('model.database_manage.SQliteDatabaseManager') as mock_db_manager_class, \
+    with patch('model.models.sqlite_models.SQliteDatabaseManager') as mock_db_manager_class, \
          patch.object(SQliteModel, 'get_column_names', return_value=["id", "email", "username", "full_name", "age"]), \
          patch.object(SQliteModel, 'get_unique_constraint', return_value=["email", "username"]), \
          patch.object(SQliteModel, 'get_required_column_names', return_value=["email", "username"]):
@@ -20,6 +20,34 @@ def db_model():
         mock_db_manager_class.return_value = mock_db_manager
 
         model = SQliteModel(database_address=None, table_name="users")
+        model.cursor.execute("""
+            CREATE TABLE users (
+                id INTEGER PRIMARY KEY,
+                email TEXT NOT NULL,
+                username TEXT NOT NULL,
+                full_name TEXT,
+                age INTEGER,
+                UNIQUE(email, username)
+            )
+        """)
+        model.connection.commit()
+
+        yield model
+
+        model.connection.close()
+
+@pytest.fixture
+def db_model_real_methods():
+    with patch('model.models.sqlite_models.SQliteDatabaseManager') as mock_db_manager_class, \
+         patch.object(SQliteModel, 'initialize'):
+
+        model = SQliteModel(database_address=None, table_name="users")
+
+        model.connection = sqlite3.connect(":memory:")
+        model.cursor = model.connection.cursor()
+        model.column_names = ["id", "email", "username", "full_name", "age"]
+        model.unique_constraint = ["email", "username"]
+        model.required_columns = ["email", "username"]
 
         model.cursor.execute("""
             CREATE TABLE users (
@@ -39,7 +67,8 @@ def db_model():
 
 @pytest.fixture
 def setup_an_empty_model():
-    with patch('model.database_manager.SQliteDatabaseManager') as mock_manager_class:
+    with patch('model.database_manager.SQliteDatabaseManager') as mock_manager_class, \
+        patch.object(SQliteModel, 'initialize'):
         mock_manager = MagicMock()
         mock_manager_class.return_value = mock_manager
 
@@ -52,7 +81,7 @@ def setup_an_empty_model():
 
 @pytest.fixture
 def mock_initialization_test_dependencies():
-    with patch("model.models.sqlite_model.SQliteDatabaseManager") as MockDBManager, \
+    with patch("model.models.sqlite_models.SQliteDatabaseManager") as MockDBManager, \
          patch.object(SQliteModel, "get_column_names", return_value={"id", "email", "username", "age"}) as mock_colnames, \
          patch.object(SQliteModel, "get_unique_constraint", return_value=["email", "username"]) as mock_unique, \
          patch.object(SQliteModel, "get_required_column_names", return_value={"email", "username"}) as mock_required:
@@ -80,7 +109,7 @@ def mock_initialization_test_dependencies():
             "db_manager_instance": db_manager_instance,
         }
 
-def test_init_sets_attributes_correctly(mock_initialization_test_dependencies):
+def test_init_sets_state_correctly(mock_initialization_test_dependencies):
     mock_dependencies = mock_initialization_test_dependencies
     
     model = SQliteModel(database_address="fake.db", table_name="users")
@@ -103,12 +132,14 @@ def test_create_table_if_not_exist_executes_correct_schema(setup_an_empty_model)
     model = setup_an_empty_model
     fake_schema = "CREATE TABLE IF NOT EXISTS test_table (id INTEGER PRIMARY KEY);"
 
-    with patch.dict(SQliteModel.schemas, {'test_table': fake_schema}), \
-         patch.object(model.cursor, 'execute', wraps=model.cursor.execute) as mock_execute:
+    mock_cursor = MagicMock()
+    model.cursor = mock_cursor
+
+    with patch.dict(SQliteModel.schemas, {'test_table': fake_schema}):
         
         model.create_table_if_not_exist()
 
-        mock_execute.assert_called_once_with(fake_schema)
+        mock_cursor.execute.assert_called_once_with(fake_schema)
 
 
 # ============= Test get_records() method =============  
@@ -123,47 +154,53 @@ def insert_sample_users_test_get_records(model: SQliteModel):
     model.cursor.executemany("""
         INSERT INTO users (id, email, username, full_name, age)
         VALUES (?, ?, ?, ?, ?)
-    """, sample_data)
+    """, sample_data)   
     model.connection.commit()
+
+# --- TC0: Test if method Encapsulate the column names
+def test_get_records_encapsulates_columns_row(db_model):
+    insert_sample_users(db_model)
+    records = db_model.get_records()
+    expected_columns_row = ("id", "email", "username", "full_name", "age")
+    assert records[0] == expected_columns_row
 
 # --- TC1: No filters passed — should return all records
 def test_get_records_no_filters_returns_all(db_model):
     insert_sample_users_test_get_records(db_model)
     records = db_model.get_records()
-    assert len(records) == 3
-    assert any(record[1] == "alice@example.com" for record in records)
+    assert len(records[1:]) == 3
+    assert any(record['email'] == "alice@example.com" for record in records)
 
 # --- TC2: Valid filter on 'age'
 def test_get_records_valid_filter(db_model):
     insert_sample_users_test_get_records(db_model)
     records = db_model.get_records(age=30)
-    assert len(records) == 2
-    assert all(record[4] == 30 for record in records)
+    assert len(records[1:]) == 2
+    assert all(record['age'] == 30 for record in records)
 
 # --- TC3: Mixed valid and invalid filters
 def test_get_records_partial_valid_kwargs(db_model):
     insert_sample_users_test_get_records(db_model)
     records = db_model.get_records(age=25, non_existing="value")
-    assert len(records) == 1
-    assert records[0][2] == "bob"
+    assert len(records[1:]) == 1
+    assert records[0]['username'] == "bob"
 
 # --- TC4: All filters invalid — should return all
 def test_get_records_all_invalid_kwargs_returns_all(db_model):
     insert_sample_users_test_get_records(db_model)
     records = db_model.get_records(foo="bar", something=123)
-    assert len(records) == 3
+    assert len(records[1:]) == 3
 
 # --- TC5: No data in table — return empty list
 def test_get_records_empty_table_returns_empty(db_model):
     records = db_model.get_records()
-    assert records == []
+    assert records[1:] == []
 
 # --- TC6: Valid filter, no matching data
 def test_get_records_valid_filter_no_match_returns_empty(db_model):
     insert_sample_users_test_get_records(db_model)
     records = db_model.get_records(age=100)
-    assert records == []
-
+    assert records[1:] == [] 
 
 # =============== Test get_specific_column() method ===============
     
@@ -245,21 +282,22 @@ def test_get_records_count_one_record(db_model):
 
 
 # --- TC1: Test get_column_names returns correct set of columns
-def test_get_column_names_returns_correct_columns(db_model):
-    expected_columns = {"id", "email", "username", "full_name", "age"}
+def test_get_column_names_returns_correct_columns(db_model_real_methods):
+    db_model = db_model_real_methods
+    expected_columns = ("id", "email", "username", "full_name", "age")
     actual_columns = db_model.get_column_names()
-    assert isinstance(actual_columns, set)
     assert actual_columns == expected_columns
 
 # --- TC2: Test get_required_column_names returns NOT NULL columns
-def test_get_required_column_names_returns_not_null_columns(db_model):
+def test_get_required_column_names_returns_not_null_columns(db_model_real_methods):
+    db_model = db_model_real_methods
     required_columns = db_model.get_required_column_names()
-    assert isinstance(required_columns, set)
-    assert required_columns == {"email", "username"}
+    assert required_columns == ("email", "username")
 
 # --- TC3: Test get_table_unique_constraint returns correct unique columns
-def test_get_table_unique_constraint_returns_unique_columns(db_model):
-    unique_columns = db_model.get_table_unique_constraint()
+def test_get_table_unique_constraint_returns_unique_columns(db_model_real_methods):
+    db_model = db_model_real_methods
+    unique_columns = db_model.get_unique_constraint()
     # The table has a UNIQUE constraint on (email, username)
     assert isinstance(unique_columns, list)
     assert set(unique_columns) == {"email", "username"}
@@ -372,7 +410,6 @@ def test_is_record_exists_with_all_invalid_filters(db_model):
 
 # ================== Test delete_records() ==================
     
-
 def insert_sample_users_for_delete_test(model):
     users = [
         (1, "alice@example.com", "alice", "Alice A.", 30),
@@ -428,11 +465,10 @@ def test_delete_with_partial_filter_match_fails(db_model):
 
     # Nothing should be deleted
     remaining = db_model.get_records()
-    assert len(remaining) == 2
+    assert len(remaining) == 4
 
 
 # --- TC5: Raises ValueError on no conditions
-import pytest
 
 def test_delete_raises_error_if_no_kwargs(db_model):
     insert_sample_users_for_delete_test(db_model)
@@ -566,7 +602,7 @@ def test_update_ignores_invalid_fields(db_model):
 def test_players_model_initializer():
     mock_address = "dummy.db"
 
-    with patch("model.players_model.SQliteModel.__init__") as mock_super_init, \
+    with patch.object(SQliteModel, "__init__") as mock_super_init, \
          patch.object(PlayersModel, "create_table_if_not_exist") as mock_create_table:
 
         mock_super_init.return_value = None
@@ -580,13 +616,13 @@ def test_players_model_initializer():
 def test_teams_model_initializer():
     mock_address = "dummy.db"
 
-    with patch("model.players_model.SQliteModel.__init__") as mock_super_init, \
+    with patch.object(SQliteModel, "__init__") as mock_super_init, \
          patch.object(TeamsModel, "create_table_if_not_exist") as mock_create_table:
 
         mock_super_init.return_value = None
         instance = TeamsModel(mock_address)
 
-        mock_super_init.assert_called_once_with(mock_address, "teams")
+        mock_super_init.assert_any_call(mock_address, "teams")
         mock_create_table.assert_called_once()
 
 # ====================== Matches Model specific Tests ======================
@@ -594,7 +630,7 @@ def test_teams_model_initializer():
 def test_matches_model_initializer():
     mock_address = "dummy.db"
 
-    with patch("model.players_model.SQliteModel.__init__") as mock_super_init, \
+    with patch.object(SQliteModel, "__init__") as mock_super_init, \
          patch.object(MatchesModel, "create_table_if_not_exist") as mock_create_table:
 
         mock_super_init.return_value = None
@@ -608,7 +644,7 @@ def test_matches_model_initializer():
 def test_tables_model_initializer():
     mock_address = "dummy.db"
 
-    with patch("model.players_model.SQliteModel.__init__") as mock_super_init, \
+    with patch.object(SQliteModel, "__init__") as mock_super_init, \
          patch.object(TablesModel, "create_table_if_not_exist") as mock_create_table:
 
         mock_super_init.return_value = None

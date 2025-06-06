@@ -75,10 +75,11 @@ async def test_get_club_player_urls():
     scraper._website_url = "https://www.premierleague.com"
     scraper.structure = BeautifulSoup(html, 'html.parser')
 
-    expected_result = {
-        "JohnDoe": "https://www.premierleague.com/players/1111/john-doe/overview",
-        "JaneSmith": "https://www.premierleague.com/players/2222/jane-smith/overview"
-    }
+    expected_result = [ 
+        ("player_name", "player_page_url"),
+        ("JohnDoe", "https://www.premierleague.com/players/1111/john-doe/overview"),
+        ("JaneSmith", "https://www.premierleague.com/players/2222/jane-smith/overview")
+    ]
 
     result = await scraper.get_club_player_urls()
 

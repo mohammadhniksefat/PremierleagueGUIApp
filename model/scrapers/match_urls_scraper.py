@@ -32,8 +32,6 @@ class MatchUrlsScraper(PremierleagueWebsiteScraper, IMatchUrlsScraper):
             match_url = self._website_url + match_url
             result['urls'].add(match_url)
 
-        print(len(result['urls']))
-        print(result['urls'])
         return result
 
     async def _get_week_page_urls(self, browser):
@@ -62,7 +60,7 @@ class MatchUrlsScraper(PremierleagueWebsiteScraper, IMatchUrlsScraper):
             tasks = [self._get_week_match_urls(browser, url) for url in week_page_urls]
             match_urls = await asyncio.gather(*tasks)
             
-            result: dict[str, list] = dict()
+            result: dict[int, list] = dict()
             for match_url_dict in match_urls:
                 result[match_url_dict['round']] = match_url_dict['urls']
 

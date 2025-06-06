@@ -18,11 +18,16 @@ class ClubUrlsScraper(PremierleagueWebsiteScraper, IClubUrlsScraper):
 
     async def get_club_urls(self):
         clubs = self._structure.select('.club-cards-wrapper .club-list .club-card-wrapper a')
-        club_urls = list(map(lambda club: str(self._website_url + club.get('href')), clubs))
-        club_names = list(map(lambda club: club.select_one('.club-card__info .club-card__name-container h2').get_text(strip=True), clubs))
-
-        combined_dictionary = {club.select_one('.club-card__info .club-card__name-container h2').get_text(strip=True): \
-                               str(self._website_url + club.get('href')) \
-                               for club in clubs}
         
-        return combined_dictionary
+        result = []
+        
+        columns_row = ("club_name", "club_page_url")
+        result.append(columns_row)
+
+        for club in clubs:
+            club_name = club.select_one('.club-card__info .club-card__name-container h2').get_text(strip=True)
+            club_page_url = str(self._website_url + club.get('href'))
+
+            result.append((club_name, club_page_url))
+        
+        return result

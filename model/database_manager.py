@@ -1,4 +1,3 @@
-from model.models import sqlite_models
 import sqlite3, atexit
 
 class DatabaseManager:

@@ -36,7 +36,7 @@ class MatchesSectionController:
     def get_this_week_number(self):
         timestamps = self.matches_database_controller.get_specific_column('timestamp', 'id')
 
-        nearest_id = self.find_nearest_id(timestamps)
+        nearest_id = self._find_nearest_id(timestamps)
         
         nearest_record = self.matches_database_controller.get_records(id=nearest_id) 
         this_week_number = nearest_record['week_number']
@@ -44,14 +44,15 @@ class MatchesSectionController:
         return this_week_number
     
     def _find_nearest_id(self, timestamps: dict[int: int]):
-        nearest_id = timestamps.keys()[0]
-        now_timestamp = datetime.datetime.now()
-        lowest_remained_time = timestamps[nearest_id] - now_timestamp
+        nearest_id = list(timestamps.keys())[0]
+        now_timestamp = datetime.datetime.now().timestamp()
+        lowest_remained_time = float('inf')
 
         for id, timestamp in timestamps.items():
             remained_time = timestamp - now_timestamp
 
             if remained_time > 0 and remained_time < lowest_remained_time:
+                lowest_remained_time = remained_time
                 nearest_id = id
         
         return nearest_id
@@ -75,6 +76,7 @@ class TablesSectionController:
         team_logos = {team_name: ImageManager.create_image_object(logo_data, width) for team_name, logo_data in team_logo_binary_datas.items()}
 
         return team_logos
+    
     def get_tables_data(self, logos_width=35):
         tables_data_dict = self.tables_database_controller.get_records()
         tables_data_dict = TablesDataFormatter.format_data(tables_data_dict, self._get_team_names() , self._prepare_team_logos(width=logos_width))

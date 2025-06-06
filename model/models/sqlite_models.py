@@ -9,10 +9,10 @@ def load_schema(schema_address):
 
 class SQliteModel(BaseModel):
     schemas = {
-        'players' : load_schema(Path(__file__).parent / ".." / "schemas" / "sqlite" / "players_table.sql"), 
-        'teams' : load_schema(Path(__file__).parent / ".." / "schemas" / "sqlite" / "teams_table.sql"),
-        'matches' : load_schema(Path(__file__).parent / ".." / "schemas" / "sqlite" / "matches_table.sql"),
-        'tables' : load_schema(Path(__file__).parent / ".." / "schemas" / "sqlite" / "tables_table.sql")
+        'players' : load_schema(Path(__file__).parent.parent / "schemas" / "sqlite" / "players.sql"), 
+        'teams' : load_schema(Path(__file__).parent.parent / "schemas" / "sqlite" / "clubs.sql"),
+        'matches' : load_schema(Path(__file__).parent.parent / "schemas" / "sqlite" / "matches.sql"),
+        'tables' : load_schema(Path(__file__).parent.parent / "schemas" / "sqlite" / "tables.sql")
     }
 
     def __init__(self, database_address, table_name):
@@ -37,10 +37,8 @@ class SQliteModel(BaseModel):
         self.cursor.execute(SQliteModel.schemas[self.table_name])
 
     def get_records(self, **kwargs):
-        
-        table_columns = self.get_table_columns()
 
-        valid_arguments = {key : value for key, value in kwargs.items() if key in table_columns}
+        valid_arguments = {key : value for key, value in kwargs.items() if key in self.column_names}
 
         if not valid_arguments:
             query = f"SELECT * FROM {self.table_name}"
@@ -50,7 +48,11 @@ class SQliteModel(BaseModel):
             sql = f"SELECT * FROM {self.table_name} WHERE {conditions}"
             self.cursor.execute(sql, tuple(valid_arguments.values()))
 
-        return self.cursor.fetchall()
+        records = self.cursor.fetchall()
+        # result = [dict(zip(self.column_names, record)) for record in records]
+        result = list(records)
+        result.insert(0, self.column_names)
+        return records
 
     def get_specific_column(self, column, key=None):
         """
@@ -61,7 +63,7 @@ class SQliteModel(BaseModel):
         :param key: Optional column to use as dictionary keys.
         :return: List of values if key is None, else a dict with key-value mapping.
         """
-        valid_columns = self.get_table_columns()
+        valid_columns = self.get_column_names()
 
         if column not in valid_columns:
             raise ValueError(f"Invalid column: {column}")
@@ -96,7 +98,7 @@ class SQliteModel(BaseModel):
         if missing_columns:
             raise ValueError(f"Missing required columns: {', '.join(missing_columns)}")
 
-        valid_columns = self.get_table_columns()
+        valid_columns = self.get_column_names()
 
         # Filter valid columns (ignore extra keys)
         filtered_data = {k: v for k, v in dictionary.items() if k in valid_columns}
@@ -112,7 +114,7 @@ class SQliteModel(BaseModel):
 
     def get_column_names(self):
         self.cursor.execute(f"PRAGMA table_info({self.table_name})")
-        return {row[1] for row in self.cursor.fetchall()}
+        return tuple(row[1] for row in self.cursor.fetchall())
 
     def get_required_column_names(self):
         """Returns a set of columns that have a NOT NULL constraint."""
@@ -120,7 +122,7 @@ class SQliteModel(BaseModel):
         columns_info = self.cursor.fetchall()
 
         # Extract column names where 'notnull' field is 1 (meaning NOT NULL constraint is applied)
-        required_columns = {row[1] for row in columns_info if row[3] == 1}
+        required_columns = tuple(row[1] for row in columns_info if row[3] == 1)
 
         return required_columns
 
@@ -130,7 +132,7 @@ class SQliteModel(BaseModel):
             raise ValueError("No conditions provided. No records to delete.")
         
         # Get valid columns from the table for validation
-        valid_columns = self.get_table_columns()
+        valid_columns = self.get_column_names()
 
         # Validate that all keys in kwargs are valid columns in the table
         invalid_columns = [key for key in kwargs.keys() if key not in valid_columns]
@@ -168,7 +170,7 @@ class SQliteModel(BaseModel):
         records = self.get_records(**kwargs)
         return bool(records)  # Explicit check for empty list
     
-    def get_table_unique_constraint(self) -> list[str]:
+    def get_unique_constraint(self) -> list[str]:
         self.cursor.execute(f"PRAGMA table_info('{self.table_name}')")
         pk_columns = [row[1] for row in self.cursor.fetchall() if row[5] > 0]  # row[5] == pk position
 
@@ -239,26 +241,26 @@ class SQliteModel(BaseModel):
         
         self.connection.commit()
 
-class PlayersModel(SQliteModel, PlayersModel):
-    def __init___(self, database_address):
+class PlayersModel(SQliteModel):
+    def __init__(self, database_address):
         table_name = 'players'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()
 
-class TeamsModel(SQliteModel, TeamsModel):
-    def __init___(self, database_address):
+class TeamsModel(SQliteModel):
+    def __init__(self, database_address):
         table_name = 'teams'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()
 
-class MatchesModel(SQliteModel, MatchesModel):    
-    def __init___(self, database_address):
+class MatchesModel(SQliteModel):    
+    def __init__(self, database_address):
         table_name = 'matches'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()
     
-class TablesModel(SQliteModel, TablesModel):
-    def __init___(self, database_address):
+class TablesModel(SQliteModel):
+    def __init__(self, database_address):
         table_name = 'tables'
         super().__init__(database_address, table_name)
         self.create_table_if_not_exist()

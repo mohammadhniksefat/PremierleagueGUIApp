@@ -24,8 +24,8 @@ class ModelFactory:
             raise ValueError("invalid database type!")
         
     @classmethod
-    def _get_default_db_address():
-        db_address = str(Path(__file__).parent / "../" / "data" / "main_database.db")
+    def _get_default_db_address(cls):
+        db_address = str(Path(__file__).parent.parent / "model" / "data" / "main_database.db")
         return db_address
             
 class DatabaseTypeChecker:

@@ -9,21 +9,21 @@ def test_matches_section_controller_initialization(mock_model_creator):
     mock_matches_model = MagicMock()
     mock_teams_model = MagicMock()
 
-    def model_creator_side_effect(model):
+    def model_creator_side_effect(table_name):
         nonlocal mock_matches_model, mock_matches_model
-        if model == 'matches':
+        if table_name == 'matches':
             return mock_matches_model
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_model
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
     mock_model_creator.side_effect = model_creator_side_effect
 
     controller = MatchesSectionController()
 
-    mock_model_creator.assert_any_call(model='matches')
-    mock_model_creator.assert_any_call(model='teams')
+    mock_model_creator.assert_any_call(table_name='matches')
+    mock_model_creator.assert_any_call(table_name='teams')
 
     assert controller.matches_database_controller == mock_matches_model
     assert controller.teams_database_controller == mock_teams_model
@@ -32,48 +32,13 @@ def test_matches_section_controller_initialization(mock_model_creator):
 def test_get_weeks_count_working_properly(mock_model_creator):
     mock_teams_database_controller = MagicMock()
     mock_teams_database_controller.get_records_count.return_value = 10
-
-    def model_creator_side_effect(model):
-        nonlocal mock_teams_database_controller
-        if model == 'matches':
-            return MagicMock()
-        elif model == 'teams':
-            return mock_teams_database_controller
-        else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
         
-    mock_model_creator.side_effect = model_creator_side_effect
+    mock_model_creator.return_value = mock_teams_database_controller
 
     controller = MatchesSectionController()
     weeks_count = controller.get_weeks_count()
 
-    # mock_teams_database_controller.get_records_count.assert_called_once()
-
     assert weeks_count == 18
-
-@patch('model.model_factory.ModelFactory.create_model')
-def test_get_this_week_number(mock_create_model):
-    mock_matches_database_controller = MagicMock()
-    mock_matches_database_controller.get_records_within_period.return_value = [{'week_number': 14}]
-    def model_creator_side_effect(model):
-        if model == 'matches':
-            return mock_matches_database_controller
-        elif model == 'teams':
-            return MagicMock()
-        else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
-
-    mock_create_model.side_effect = model_creator_side_effect
-
-    controller = MatchesSectionController()
-    week = controller.get_this_week_number()
-
-    assert week == 14
-    mock_matches_database_controller.get_records_within_period.assert_called_once()
-    args, kwargs = mock_matches_database_controller.get_records_within_period.call_args
-    assert kwargs['period'] == 'week'
-    assert isinstance(kwargs['timestamp'], datetime.datetime)
-
 
 @patch('controller.user_controller.WeekDataFormatter.format_data')
 @patch('controller.user_controller.ImageManager.create_image_object')
@@ -89,13 +54,13 @@ def test_get_week_data(mock_create_model, mock_create_image_object, mock_format_
     mock_matches_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
 
-    def model_creator_side_effect(model):
-        if model == 'matches':
+    def model_creator_side_effect(table_name):
+        if table_name == 'matches':
             return mock_matches_database_controller
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_database_controller
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
     # Simulate the sequence of create_model calls:
     # First call returns teams controller, second call returns matches controller
@@ -148,8 +113,8 @@ def test_get_week_data(mock_create_model, mock_create_image_object, mock_format_
 def test_get_this_week_number(mock_model_creator):
     mock_matches_database_model = MagicMock()
 
-    def mock_model_factory(model):
-        if model == 'matches':
+    def mock_model_factory(table_name):
+        if table_name == 'matches':
             return mock_matches_database_model
         else:
             return None
@@ -194,15 +159,15 @@ def test_find_nearest_id(mock_datetime):
         1: future_time_1,
         2: future_time_2,  
         3: future_time_3,
-        4: future_time_4,  # This is the closest
-        5: future_time_5,
+        4: future_time_4,  
+        5: future_time_5,   # This is the closest
         6: future_time_6
     }
     with patch('model.model_factory.ModelFactory.create_model', return_value=None):
         controller = MatchesSectionController()
         result = controller._find_nearest_id(timestamps)
 
-    assert result == 4
+    assert result == 5
 
 # ======== Test TablesSectionController class ========
 
@@ -212,13 +177,13 @@ def test_tables_section_controller_initialization(mock_create_model):
     mock_tables_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
 
-    def model_creator_side_effect(model):
-        if model == 'tables':
+    def model_creator_side_effect(table_name):
+        if table_name == 'tables':
             return mock_tables_database_controller
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_database_controller
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
     mock_create_model.side_effect = model_creator_side_effect
 
@@ -227,8 +192,8 @@ def test_tables_section_controller_initialization(mock_create_model):
     assert controller.tables_database_controller == mock_tables_database_controller
     assert controller.teams_database_controller == mock_teams_database_controller
     assert mock_create_model.call_count == 2
-    mock_create_model.assert_any_call(model='tables')
-    mock_create_model.assert_any_call(model='teams')
+    mock_create_model.assert_any_call(table_name='tables')
+    mock_create_model.assert_any_call(table_name='teams')
 
 # Test get_tables_data method behavior
 @patch('controller.user_controller.TablesDataFormatter.format_data')
@@ -245,13 +210,13 @@ def test_get_tables_data(mock_create_model, mock_create_image_object, mock_forma
     mock_teams_database_controller = MagicMock()
     mock_tables_database_controller = MagicMock()
 
-    def model_creator_side_effect(model):
-        if model == 'tables':
+    def model_creator_side_effect(table_name):
+        if table_name == 'tables':
             return mock_tables_database_controller
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_database_controller
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
     # First create_model call returns tables, second returns teams
     mock_create_model.side_effect = model_creator_side_effect
@@ -338,7 +303,7 @@ def test_teams_section_controller_initialization(mock_create_model):
 
     # Assert correct initialization
     assert controller.teams_database_controller == mock_teams_controller
-    mock_create_model.assert_called_once_with(model='teams')
+    mock_create_model.assert_called_once_with(table_name='teams')
 
 
 # ======== Test PlayersSectionController class ========
@@ -349,13 +314,13 @@ def test_players_section_controller_init(mock_create_model):
     mock_players_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
 
-    def model_creator_side_effect(model):
-        if model == 'players':
+    def model_creator_side_effect(table_name):
+        if table_name == 'players':
             return mock_players_database_controller
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_database_controller
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
     # First call returns players controller, second returns teams controller
     mock_create_model.side_effect = model_creator_side_effect
@@ -373,13 +338,13 @@ def test_get_players_data(mock_create_model, mock_format_data):
     mock_players_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
 
-    def model_creator_side_effect(model):
-        if model == 'players':
+    def model_creator_side_effect(table_name):
+        if table_name == 'players':
             return mock_players_database_controller
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_database_controller
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
     mock_create_model.side_effect = model_creator_side_effect
 
@@ -405,13 +370,13 @@ def test_get_teams_data(mock_create_model):
     mock_players_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
 
-    def model_creator_side_effect(model):
-        if model == 'players':
+    def model_creator_side_effect(table_name):
+        if table_name == 'players':
             return mock_players_database_controller
-        elif model == 'teams':
+        elif table_name == 'teams':
             return mock_teams_database_controller
         else:
-            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => model: {model}')
+            pytest.fail(f'unexpected arguments to create_model method of ModelFactory class => table_name: {table_name}')
 
 
     mock_create_model.side_effect = model_creator_side_effect

@@ -14,7 +14,7 @@ class BaseModel(ABC):
     def get_records_count(self): pass
 
     @abstractmethod
-    def is_record_exist(self): pass
+    def is_record_exists(self): pass
 
     @abstractmethod
     def delete_records(self): pass

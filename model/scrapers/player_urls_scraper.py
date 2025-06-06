@@ -33,7 +33,10 @@ class PlayerUrlsScraper(PremierleagueWebsiteScraper, IPlayerUrlsScraper):
     async def get_club_player_urls(self) -> dict[str, str]:
         self._raise_if_not_initialized()
         
-        result = dict()
+        result = []
+
+        columns_row = ("player_name", "player_page_url")
+        result.append(columns_row)
 
         player_elements = self.structure.select('li.stats-card[data-widget="featured-player"] a.stats-card__wrapper')
         for player_element in player_elements:
@@ -43,7 +46,7 @@ class PlayerUrlsScraper(PremierleagueWebsiteScraper, IPlayerUrlsScraper):
 
             player_page_url = self._website_url + player_element.get('href')
 
-            result[full_name] = player_page_url
+            result.append((full_name, player_page_url))
 
         return result
 

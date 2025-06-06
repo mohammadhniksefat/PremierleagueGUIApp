@@ -9,7 +9,7 @@ def test_configure_model_sets_up_model_and_registers_cleanup():
 
     with patch("sqlite3.connect") as mock_connect, \
          patch("atexit.register") as mock_atexit, \
-         patch("model.database_manage.DatabaseManager.__init__") as mock_super_init:
+         patch("model.database_manager.DatabaseManager.__init__") as mock_super_init:
 
         mock_connection = MagicMock()
         mock_cursor = MagicMock()
