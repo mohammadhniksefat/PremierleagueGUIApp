@@ -42,12 +42,18 @@ This interface allows administrative control over the scraper, database, and tes
 
 ## 💬 Available Commands
 Command	Description
-help	Displays all available commands and their descriptions.
-db_update	Updates the local SQLite database by scraping the latest data from the Premier League website and synchronizing it with existing records.
-scrape	Runs the scraper independently and displays the extracted data directly in the terminal for quick inspection.
-tests	Provides an interactive environment to list, select, and execute test modules and test cases from the tests/ directory.
-test_request_handler	Accepts one or more URLs as arguments, sends requests using the project’s RequestHandler class, and returns response summaries for verification.
-exit	Gracefully exits the admin controller.
+help:	Displays all available commands and their descriptions.
+
+db_update:	Updates the local SQLite database by scraping the latest data from the Premier League website and synchronizing it with existing records.
+
+scrape:	Runs the scraper independently and displays the extracted data directly in the terminal for quick inspection.
+
+tests:	Provides an interactive environment to list, select, and execute test modules and test cases from the tests/ directory.
+
+test_request_handler:	Accepts one or more URLs as arguments, sends requests using the project’s RequestHandler class, and returns response summaries for verification.
+
+exit:	Gracefully exits the admin controller.
+
 #### ⚡ Purpose
 
 This CLI serves as a central control hub for:
