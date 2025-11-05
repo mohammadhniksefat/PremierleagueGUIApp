@@ -1,4 +1,4 @@
-# 🏆 Premier League python GUI Application
+# 🏆 Premier League Python GUI Application
 
 A desktop application that scrapes and displays Premier League football data in a user-friendly GUI built with Tkinter.
 The application provides structured access to player, club, and match information extracted from the official Premier League website.
