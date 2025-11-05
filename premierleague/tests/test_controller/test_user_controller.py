@@ -1,10 +1,10 @@
 import pytest, os, json, datetime, math
-from premierleague.controller.user_controller import MatchesSectionController, TeamsSectionController, TablesSectionController, PlayersSectionController
+from controller.user_controller import MatchesSectionController, TeamsSectionController, TablesSectionController, PlayersSectionController
 from unittest.mock import MagicMock, patch
 
 # ======== Test MatchesSectionController class ========
 
-@patch("premierleague.model.model_factory.ModelFactory.create_model")
+@patch("model.model_factory.ModelFactory.create_model")
 def test_matches_section_controller_initialization(mock_model_creator):
     mock_matches_model = MagicMock()
     mock_teams_model = MagicMock()
@@ -28,7 +28,7 @@ def test_matches_section_controller_initialization(mock_model_creator):
     assert controller.matches_database_controller == mock_matches_model
     assert controller.teams_database_controller == mock_teams_model
 
-@patch("premierleague.model.model_factory.ModelFactory.create_model")
+@patch("model.model_factory.ModelFactory.create_model")
 def test_get_weeks_count_working_properly(mock_model_creator):
     mock_teams_database_controller = MagicMock()
     mock_teams_database_controller.get_records_count.return_value = 10
@@ -40,9 +40,9 @@ def test_get_weeks_count_working_properly(mock_model_creator):
 
     assert weeks_count == 18
 
-@patch('premierleague.controller.user_controller.WeekDataFormatter.format_data')
-@patch('premierleague.controller.user_controller.ImageManager.create_image_object')
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('controller.user_controller.WeekDataFormatter.format_data')
+@patch('controller.user_controller.ImageManager.create_image_object')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_get_week_data(mock_create_model, mock_create_image_object, mock_format_data):
     # Setup mock return values for logos, team names, and weekly match records
     fake_team_logos = {'Team A': 'hexdataA', 'Team B': 'hexdataB'}
@@ -109,7 +109,7 @@ def test_get_week_data(mock_create_model, mock_create_image_object, mock_format_
     # Assert the final result matches the expected formatted data
     assert result == formatted_data
 
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_get_this_week_number(mock_model_creator):
     mock_matches_database_model = MagicMock()
 
@@ -143,7 +143,7 @@ def test_get_this_week_number(mock_model_creator):
     assert result == mock_week_number
 
 
-@patch("premierleague.controller.user_controller.datetime")
+@patch("controller.user_controller.datetime")
 def test_find_nearest_id(mock_datetime):
     now = datetime.datetime(2025, 1, 1, 12, 0, 0)
     mock_datetime.datetime.now.return_value = now
@@ -163,7 +163,7 @@ def test_find_nearest_id(mock_datetime):
         5: future_time_5,   # This is the closest
         6: future_time_6
     }
-    with patch('premierleague.model.model_factory.ModelFactory.create_model', return_value=None):
+    with patch('model.model_factory.ModelFactory.create_model', return_value=None):
         controller = MatchesSectionController()
         result = controller._find_nearest_id(timestamps)
 
@@ -172,7 +172,7 @@ def test_find_nearest_id(mock_datetime):
 # ======== Test TablesSectionController class ========
 
 # Test __init__ method initializes correct state
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_tables_section_controller_initialization(mock_create_model):
     mock_tables_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
@@ -196,9 +196,9 @@ def test_tables_section_controller_initialization(mock_create_model):
     mock_create_model.assert_any_call(table_name='teams')
 
 # Test get_tables_data method behavior
-@patch('premierleague.controller.user_controller.TablesDataFormatter.format_data')
-@patch('premierleague.controller.user_controller.ImageManager.create_image_object')
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('controller.user_controller.TablesDataFormatter.format_data')
+@patch('controller.user_controller.ImageManager.create_image_object')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_get_tables_data(mock_create_model, mock_create_image_object, mock_format_data):
     # Setup test data
     fake_team_names = {'1': 'Team A', '2': 'Team B'}
@@ -261,8 +261,8 @@ def test_get_tables_data(mock_create_model, mock_create_image_object, mock_forma
 # ======== Test TeamsSectionController class ========
 
 # Unit test for get_teams_data method
-@patch('premierleague.controller.user_controller.TeamsDataFormatter.format_data')
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('controller.user_controller.TeamsDataFormatter.format_data')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_get_teams_data(mock_create_model, mock_format_data):
     # Setup test data
     fake_team_data = [
@@ -292,7 +292,7 @@ def test_get_teams_data(mock_create_model, mock_format_data):
 
 
 # Unit test to check correct initialization of TeamsSectionController
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_teams_section_controller_initialization(mock_create_model):
     # Setup
     mock_teams_controller = MagicMock()
@@ -309,7 +309,7 @@ def test_teams_section_controller_initialization(mock_create_model):
 # ======== Test PlayersSectionController class ========
 
 # Test for initializer to confirm correct state setup
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_players_section_controller_init(mock_create_model):
     mock_players_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
@@ -332,8 +332,8 @@ def test_players_section_controller_init(mock_create_model):
 
 
 # Test get_players_data behavior
-@patch('premierleague.controller.user_controller.TeamsDataFormatter.format_data')
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('controller.user_controller.TeamsDataFormatter.format_data')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_get_players_data(mock_create_model, mock_format_data):
     mock_players_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()
@@ -365,7 +365,7 @@ def test_get_players_data(mock_create_model, mock_format_data):
 
 
 # Test get_teams_data behavior
-@patch('premierleague.model.model_factory.ModelFactory.create_model')
+@patch('model.model_factory.ModelFactory.create_model')
 def test_get_teams_data(mock_create_model):
     mock_players_database_controller = MagicMock()
     mock_teams_database_controller = MagicMock()

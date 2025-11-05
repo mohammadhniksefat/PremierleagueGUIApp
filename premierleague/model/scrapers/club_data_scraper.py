@@ -6,7 +6,7 @@ from .request_handler import RequestHandler
 from .interfaces.club_data_scraper import IClubDataScraper
 from .premierleague_website_scraper import PremierleagueWebsiteScraper
 import logging
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 
 logger = logging.getLogger(__name__)
 

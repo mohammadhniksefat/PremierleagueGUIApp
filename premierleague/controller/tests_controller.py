@@ -4,7 +4,7 @@ import re
 import logging
 import traceback
 from datetime import datetime
-from premierleague.log_config.logger_configurer import configure_logger
+from log_config.logger_configurer import configure_logger
 
 logger = logging.getLogger(__name__)
 

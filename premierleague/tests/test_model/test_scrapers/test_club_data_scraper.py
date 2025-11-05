@@ -1,9 +1,9 @@
 import pytest
 from bs4 import BeautifulSoup
 from unittest.mock import patch, AsyncMock, MagicMock
-from premierleague.tests.utils import load_fixture
-from premierleague.model.scrapers.club_data_scraper import ClubDataScraper
-from premierleague.model.scrapers.request_handler import RequestHandler
+from tests.utils import load_fixture
+from model.scrapers.club_data_scraper import ClubDataScraper
+from model.scrapers.request_handler import RequestHandler
 
 @pytest.fixture
 def main_page_html():
@@ -28,7 +28,7 @@ async def test_initialize_sets_correct_state_and_mocks_side_effects():
     main_page_html = '<html><body><h2 class="club-header__team-name">Fake Club</h2></body></html>'
     directory_page_html = '<html><body><span>Manager</span></body></html>'
 
-    with patch("premierleague.model.scrapers.utils.UrlValidator.validate_club_page_url", return_value=True):
+    with patch("model.scrapers.utils.UrlValidator.validate_club_page_url", return_value=True):
         scraper = ClubDataScraper(fake_url)
 
         handler = RequestHandler()  # Get the real singleton instance
@@ -68,7 +68,7 @@ async def test_initialize_sets_correct_state_and_mocks_side_effects():
 @pytest.mark.asyncio
 async def test_get_all_data_calls_all_methods_and_returns_data():
     fake_url = "https://www.premierleague.com/clubs/1/FakeFC/overview"
-    with patch("premierleague.model.scrapers.utils.UrlValidator.validate_club_page_url", return_value=True):
+    with patch("model.scrapers.utils.UrlValidator.validate_club_page_url", return_value=True):
         scraper = ClubDataScraper(fake_url)
         scraper._initialized = True  # manually set initialized
 
@@ -109,7 +109,7 @@ async def test_get_all_data_calls_all_methods_and_returns_data():
     "get_squad_page_url",
 ])
 async def test_all_get_methods_raise_if_not_initialized(method_name):
-    with patch("premierleague.model.scrapers.utils.UrlValidator.validate_club_page_url", return_value=True):
+    with patch("model.scrapers.utils.UrlValidator.validate_club_page_url", return_value=True):
         scraper = ClubDataScraper("https://www.premierleague.com/clubs/1/FakeFC/overview")
 
         method = getattr(scraper, method_name)
@@ -138,7 +138,7 @@ async def test_get_methods_return_cached_value(method_name, cache_key, expected_
     assert result == expected_value, f"Expected cached value '{expected_value}' for {method_name}, got '{result}'"
 
 def setup_scraper_with_html(html: str, page: str = "main_page"):
-    with patch('premierleague.model.scrapers.utils.UrlValidator.validate_club_page_url', return_value=True):
+    with patch('model.scrapers.utils.UrlValidator.validate_club_page_url', return_value=True):
         scraper = ClubDataScraper("https://...")
         scraper._initialized = True
         scraper._structures = {page: BeautifulSoup(html, "html.parser")}

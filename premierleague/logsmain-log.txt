@@ -1,0 +1,132 @@
+2025-11-06 01:31:41,652 INFO Help command executed M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 34
+2025-11-06 01:31:53,768 INFO Executing tests controller program M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 544
+2025-11-06 01:31:53,768 INFO Test browser started M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 78
+2025-11-06 01:32:00,502 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:32:03,129 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:32:03,136 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:32:07,436 INFO Running individual test case M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 184
+2025-11-06 01:32:07,436 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:32:08,096 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:33:35,729 INFO Repeating last test M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 202
+2025-11-06 01:34:53,556 INFO Repeating last test M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 202
+2025-11-06 01:35:02,359 INFO Running individual test case M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 184
+2025-11-06 01:35:02,359 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:35:02,767 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:35:11,312 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:35:12,371 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:35:43,055 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:35:43,481 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:35:51,258 INFO Navigated back M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 132
+2025-11-06 01:35:53,099 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:35:59,200 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:35:59,200 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:36:00,713 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:36:01,106 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:36:03,551 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:36:03,551 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:36:04,142 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:36:04,596 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:36:07,213 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:36:07,213 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:36:13,879 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:36:13,879 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:36:15,382 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:36:15,898 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:36:40,899 INFO Navigated back M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 132
+2025-11-06 01:36:43,200 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:36:44,428 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:36:44,428 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:36:47,037 INFO Running individual test case M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 184
+2025-11-06 01:36:47,037 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:37:03,538 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:37:08,752 INFO Running individual test case M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 184
+2025-11-06 01:37:08,752 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:37:10,766 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:37:15,475 WARNING Invalid sub-choice input M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 212
+2025-11-06 01:37:17,648 INFO Running individual test case M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 184
+2025-11-06 01:37:17,648 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:37:25,191 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:37:28,796 INFO Running individual test case M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 184
+2025-11-06 01:37:28,796 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:37:45,514 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:38:06,229 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:38:06,230 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:38:08,233 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:38:15,353 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:38:21,746 INFO Navigated back M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 132
+2025-11-06 01:38:24,225 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:38:26,303 INFO Navigated back M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 132
+2025-11-06 01:38:27,801 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:38:29,377 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:38:30,984 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:38:30,984 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:38:33,662 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:38:36,310 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:41:08,665 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:41:09,783 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:41:20,354 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:41:20,354 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:41:21,653 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:41:22,032 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:41:41,608 INFO User selected item M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 147
+2025-11-06 01:41:41,608 INFO Listing test functions in module M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller list_tests_in_module 27
+2025-11-06 01:41:44,378 INFO Running pytest M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 54
+2025-11-06 01:41:45,834 INFO pytest finished M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller run_pytest 62
+2025-11-06 01:43:31,659 INFO User chose to quit M:\projects\Python\PremierLeague\premierleague\controller\tests_controller.py tests_controller main 121
+2025-11-06 01:43:31,659 INFO tests controller program executed successfully M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 550
+2025-11-06 01:43:34,078 INFO Help command executed M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 34
+2025-11-06 01:46:19,579 INFO Program exiting initiated M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 24
+2025-11-06 01:46:30,690 ERROR No URL argument provided to TestRequestHandler M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands __init__ 572
+2025-11-06 01:46:59,391 INFO TestRequestHandler initialized with URLs M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands __init__ 580
+2025-11-06 01:46:59,391 INFO Starting async request test execution M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 588
+2025-11-06 01:46:59,606 WARNING Signal 2 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:46:59,607 WARNING Signal 15 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:46:59,607 INFO RequestHandler configured successfully M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 70
+2025-11-06 01:46:59,607 INFO RequestHandler configured M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 606
+2025-11-06 01:46:59,607 INFO Scheduler started M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _scheduler 94
+2025-11-06 01:46:59,607 ERROR GET request failed for github.com M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler fetch 144
+Traceback (most recent call last):
+  File "M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py", line 126, in fetch
+    async with self.session.get(url, headers=headers) as response:
+               ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\mhcrm\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 1425, in __aenter__
+    self._resp: _RetType = await self._coro
+                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\mhcrm\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiohttp\client.py", line 622, in _request
+    raise err_exc_cls(url)
+aiohttp.client_exceptions.InvalidUrlClientError: github.com
+2025-11-06 01:46:59,609 CRITICAL Unhandled error in request handler execution M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 629
+2025-11-06 01:47:07,203 INFO TestRequestHandler initialized with URLs M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands __init__ 580
+2025-11-06 01:47:07,203 INFO Starting async request test execution M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 588
+2025-11-06 01:47:07,205 INFO Reconfiguring session: closing previous session and cancelling task M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 53
+2025-11-06 01:47:07,205 WARNING Scheduler task cancelled during reconfiguration M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 58
+2025-11-06 01:47:07,205 WARNING Signal 2 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:47:07,205 WARNING Signal 15 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:47:07,205 INFO RequestHandler configured successfully M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 70
+2025-11-06 01:47:07,205 INFO RequestHandler configured M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 606
+2025-11-06 01:47:07,206 INFO Scheduler started M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _scheduler 94
+2025-11-06 01:47:07,927 INFO GET request successful - status: 200 M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler fetch 130
+2025-11-06 01:47:07,928 INFO All requests completed M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 617
+2025-11-06 01:47:25,812 INFO TestRequestHandler initialized with URLs M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands __init__ 580
+2025-11-06 01:47:25,812 INFO Starting async request test execution M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 588
+2025-11-06 01:47:25,814 INFO Reconfiguring session: closing previous session and cancelling task M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 53
+2025-11-06 01:47:25,814 WARNING Scheduler task cancelled during reconfiguration M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 58
+2025-11-06 01:47:25,814 WARNING Signal 2 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:47:25,814 WARNING Signal 15 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:47:25,814 INFO RequestHandler configured successfully M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 70
+2025-11-06 01:47:25,814 INFO RequestHandler configured M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 606
+2025-11-06 01:47:25,815 INFO Scheduler started M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _scheduler 94
+2025-11-06 01:47:26,467 INFO GET request successful - status: 200 M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler fetch 130
+2025-11-06 01:47:26,502 INFO GET request successful - status: 200 M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler fetch 130
+2025-11-06 01:47:26,503 INFO All requests completed M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 617
+2025-11-06 01:47:57,746 ERROR No URL argument provided to TestRequestHandler M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands __init__ 572
+2025-11-06 01:48:07,375 INFO TestRequestHandler initialized with URLs M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands __init__ 580
+2025-11-06 01:48:07,376 INFO Starting async request test execution M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 588
+2025-11-06 01:48:07,576 WARNING Signal 2 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:48:07,576 WARNING Signal 15 not supported on this OS M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _register_shutdown_hooks 83
+2025-11-06 01:48:07,576 INFO RequestHandler configured successfully M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler configure 70
+2025-11-06 01:48:07,576 INFO RequestHandler configured M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 606
+2025-11-06 01:48:07,577 INFO Scheduler started M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler _scheduler 94
+2025-11-06 01:48:08,210 INFO GET request successful - status: 200 M:\projects\Python\PremierLeague\premierleague\model\scrapers\request_handler.py request_handler fetch 130
+2025-11-06 01:48:08,210 INFO All requests completed M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands _main 617
+2025-11-06 01:48:10,324 INFO Program exiting initiated M:\projects\Python\PremierLeague\premierleague\controller\commands.py commands execute_command 24

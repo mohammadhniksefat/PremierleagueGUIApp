@@ -1,12 +1,12 @@
 import pytest
 from unittest.mock import patch, MagicMock, AsyncMock
-from premierleague.model.scrapers.match_urls_scraper import MatchUrlsScraper, async_playwright, PlaywrightRequestHandler
+from model.scrapers.match_urls_scraper import MatchUrlsScraper, async_playwright, PlaywrightRequestHandler
 
 def test_init_set_state():
     def parent_initializer_side_effect(self):
         self._website_url = 'https://www.premierleague.com'
 
-    with patch('premierleague.model.scrapers.match_urls_scraper.PremierleagueWebsiteScraper.__init__', side_effect=parent_initializer_side_effect) as parent_mock:
+    with patch('model.scrapers.match_urls_scraper.PremierleagueWebsiteScraper.__init__', side_effect=parent_initializer_side_effect) as parent_mock:
         scraper_without_url = MatchUrlsScraper()
         
         # assert if parent's initializer was called
@@ -26,7 +26,7 @@ def test_init_set_state():
 
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.match_urls_scraper.PlaywrightRequestHandler.__new__')
+@patch('model.scrapers.match_urls_scraper.PlaywrightRequestHandler.__new__')
 async def test_initilizer_sets_state(mock_handler_cls):
     mock_handler_obj = MagicMock(spec=PlaywrightRequestHandler)
     mock_handler_obj.configure = AsyncMock(return_value=None)
@@ -47,7 +47,7 @@ async def goto_side_effect(page, url):
 
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.match_urls_scraper.PlaywrightRequestHandler.__new__')
+@patch('model.scrapers.match_urls_scraper.PlaywrightRequestHandler.__new__')
 async def test_get_week_page_urls(mock_handler_cls):
     expected_result =[
         "https://www.premierleague.com/matchweek/18390/blog?match=true",
@@ -105,7 +105,7 @@ async def test_get_week_page_urls(mock_handler_cls):
 
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.match_urls_scraper.PlaywrightRequestHandler.__new__')
+@patch('model.scrapers.match_urls_scraper.PlaywrightRequestHandler.__new__')
 async def test_get_week_match_urls(mock_handler_cls):
     expected_result = {
         'round': 1,
@@ -137,7 +137,7 @@ async def test_get_week_match_urls(mock_handler_cls):
 
 
 @pytest.mark.asyncio
-@patch("premierleague.model.scrapers.match_urls_scraper.async_playwright")
+@patch("model.scrapers.match_urls_scraper.async_playwright")
 async def test_get_match_urls_builds_correct_result(mock_async_playwright):
     # Mock browser setup
     mock_playwright_context = AsyncMock()

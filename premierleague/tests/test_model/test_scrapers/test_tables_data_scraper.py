@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import patch, MagicMock, AsyncMock
-from premierleague.model.scrapers.tables_data_scraper import TablesDataScraper
-from premierleague.model.scrapers.premierleague_website_scraper import PremierleagueWebsiteScraper
-from premierleague.tests.utils import load_fixture
+from model.scrapers.tables_data_scraper import TablesDataScraper
+from model.scrapers.premierleague_website_scraper import PremierleagueWebsiteScraper
+from tests.utils import load_fixture
 from collections import Counter
 from bs4 import BeautifulSoup   
 
@@ -65,7 +65,7 @@ def test_init_sets_up_state_correctly(mock_parent_initializer):
 
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.request_handler.RequestHandler.__new__')
+@patch('model.scrapers.request_handler.RequestHandler.__new__')
 async def test_initialize_method_behavior(mock_request_handler, tables_page):
     # Mock instance of RequestHandler with async configure and get methods
     mock_request_handler_object = MagicMock()

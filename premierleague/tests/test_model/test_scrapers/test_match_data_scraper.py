@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock, AsyncMock
 
-from premierleague.model.scrapers.match_data_scraper import MatchDataScraper, PlaywrightRequestHandler
+from model.scrapers.match_data_scraper import MatchDataScraper, PlaywrightRequestHandler
 
 VALID_URL = "https://www.premierleague.com/match/116057"
 INVALID_URL = "https://google.com"
@@ -31,11 +31,11 @@ GET_METHODS = [
 
 
 def test_init_raises_value_error_for_invalid_url():
-    with patch("premierleague.model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=False):
+    with patch("model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=False):
         with pytest.raises(ValueError, match="the url provided isn't valid"):
             MatchDataScraper(INVALID_URL)
 
-@patch("premierleague.model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=True)
+@patch("model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=True)
 def test_init_sets_internal_state(mock_validate):
     scraper = MatchDataScraper(VALID_URL)
 
@@ -59,8 +59,8 @@ def test_init_sets_internal_state(mock_validate):
 
 
 def test_match_data_scraper_calls_super_init():
-    with patch("premierleague.model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=True), \
-         patch("premierleague.model.scrapers.match_data_scraper.PremierleagueWebsiteScraper.__init__", return_value=None) as mock_super_init:
+    with patch("model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=True), \
+         patch("model.scrapers.match_data_scraper.PremierleagueWebsiteScraper.__init__", return_value=None) as mock_super_init:
 
         scraper = MatchDataScraper(VALID_URL)
 
@@ -68,8 +68,8 @@ def test_match_data_scraper_calls_super_init():
 
 
 @pytest.mark.asyncio
-@patch("premierleague.model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=True)
-@patch("premierleague.model.scrapers.match_data_scraper.PlaywrightRequestHandler")
+@patch("model.scrapers.match_data_scraper.UrlValidator.validate_match_page_url", return_value=True)
+@patch("model.scrapers.match_data_scraper.PlaywrightRequestHandler")
 async def test_initialize_sets_state(mock_handler_class, mock_validator):
     # Arrange
     mock_handler_instance = AsyncMock()

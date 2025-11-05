@@ -2,9 +2,9 @@ import logging
 import json
 import sqlite3
 from pathlib import Path
-from premierleague.model.database_manager import SQliteDatabaseManager
-from premierleague.model.models.base_model import BaseModel
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from model.database_manager import SQliteDatabaseManager
+from model.models.base_model import BaseModel
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 
 logger = logging.getLogger(__name__)
 configure_logger(resolve_class_module_name(SQliteDatabaseManager))

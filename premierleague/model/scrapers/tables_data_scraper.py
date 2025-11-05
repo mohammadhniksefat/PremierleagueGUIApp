@@ -1,9 +1,9 @@
 import logging
 from bs4 import BeautifulSoup
-from premierleague.model.scrapers.request_handler import RequestHandler
-from premierleague.model.scrapers.interfaces.tables_data_scraper import ITablesDataScraper
-from premierleague.model.scrapers.premierleague_website_scraper import PremierleagueWebsiteScraper
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from model.scrapers.request_handler import RequestHandler
+from model.scrapers.interfaces.tables_data_scraper import ITablesDataScraper
+from model.scrapers.premierleague_website_scraper import PremierleagueWebsiteScraper
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 
 logger = logging.getLogger(__name__)
 

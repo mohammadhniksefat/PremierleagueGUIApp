@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from .request_handler import RequestHandler
 from .interfaces.club_urls_scraper import IClubUrlsScraper
 from .premierleague_website_scraper import PremierleagueWebsiteScraper
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 
 logger = logging.getLogger(__name__)
 

@@ -2,8 +2,8 @@ import pytest
 import os
 from sqlite3 import DatabaseError
 from unittest.mock import patch, MagicMock
-from premierleague.model.model_factory import ModelFactory, DatabaseTypeChecker
-from premierleague.model import model_factory
+from model.model_factory import ModelFactory, DatabaseTypeChecker
+from model import model_factory
 from pathlib import Path
 
 # ---------------------------
@@ -11,40 +11,40 @@ from pathlib import Path
 # ---------------------------
 
 @pytest.mark.parametrize("table_name, model_class_path", [
-    ("players", "premierleague.model.models.sqlite_models.PlayersModel"),
-    ("teams", "premierleague.model.models.sqlite_models.TeamsModel"),
-    ("matches", "premierleague.model.models.sqlite_models.MatchesModel"),
-    ("tables", "premierleague.model.models.sqlite_models.TablesModel"),
+    ("players", "model.models.sqlite_models.PlayersModel"),
+    ("teams", "model.models.sqlite_models.TeamsModel"),
+    ("matches", "model.models.sqlite_models.MatchesModel"),
+    ("tables", "model.models.sqlite_models.TablesModel"),
 ])
 def test_create_model_valid_tables(table_name, model_class_path):
-    with patch("premierleague.model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True), \
+    with patch("model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True), \
          patch(model_class_path) as mock_model:
         model = ModelFactory.create_model(table_name, "fake_path")
         mock_model.assert_called_once_with("fake_path")
         assert model == mock_model.return_value
 
 def test_create_model_with_default_path():
-    with patch("premierleague.model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True), \
-         patch("premierleague.model.models.sqlite_models.PlayersModel") as mock_model, \
-         patch("premierleague.model.model_factory.ModelFactory._get_default_db_address", return_value="resolved_path"):
+    with patch("model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True), \
+         patch("model.models.sqlite_models.PlayersModel") as mock_model, \
+         patch("model.model_factory.ModelFactory._get_default_db_address", return_value="resolved_path"):
         model = ModelFactory.create_model("players")
         mock_model.assert_called_once_with("resolved_path")
         assert model == mock_model.return_value
 
 def test_create_model_with_custom_path():
-    with patch("premierleague.model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True), \
-         patch("premierleague.model.models.sqlite_models.PlayersModel") as mock_model:
+    with patch("model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True), \
+         patch("model.models.sqlite_models.PlayersModel") as mock_model:
         model = ModelFactory.create_model("players", db_address="custom_db_address")
         mock_model.assert_called_once_with("custom_db_address")
         assert model == mock_model.return_value
 
 def test_create_model_invalid_table():
-    with patch("premierleague.model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True):
+    with patch("model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=True):
         with pytest.raises(ValueError, match="Unknown table name!"):
             ModelFactory.create_model("invalid_table", "fake_path")
 
 def test_create_model_invalid_database():
-    with patch("premierleague.model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=False):
+    with patch("model.model_factory.DatabaseTypeChecker.check_sqlite_db", return_value=False):
         with pytest.raises(ValueError, match="invalid database type!"):
             ModelFactory.create_model("players", "fake_path")
 

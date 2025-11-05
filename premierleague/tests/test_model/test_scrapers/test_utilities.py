@@ -1,5 +1,5 @@
 import pytest
-from premierleague.model.scrapers.utils import UrlValidator  # replace with actual import
+from model.scrapers.utils import UrlValidator  # replace with actual import
 
 @pytest.mark.parametrize("url", [
     "https://www.premierleague.com/clubs/1/Arsenal/squad?se=719",

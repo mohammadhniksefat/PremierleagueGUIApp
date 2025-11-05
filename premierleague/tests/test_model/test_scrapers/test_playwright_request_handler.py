@@ -1,7 +1,7 @@
 import pytest, random, asyncio
 # import asyncio
 from unittest.mock import MagicMock, AsyncMock, patch, call
-from premierleague.model.scrapers.request_handler import PlaywrightRequestHandler, signal
+from model.scrapers.request_handler import PlaywrightRequestHandler, signal
 
 @pytest.fixture(autouse=True)
 def reset_singleton():
@@ -175,9 +175,9 @@ async def test_scheduler_random_batch_and_delay_every_cycle():
     for _ in range(5):
         handler.queue.put_nowait(AsyncMock()())
 
-    with patch("premierleague.model.scrapers.request_handler.random.randint", side_effect=[4, 7, 3, 6]), \
-         patch("premierleague.model.scrapers.request_handler.asyncio.sleep", new_callable=AsyncMock), \
-         patch("premierleague.model.scrapers.request_handler.asyncio.gather", wraps=asyncio.gather, new_callable=AsyncMock):
+    with patch("model.scrapers.request_handler.random.randint", side_effect=[4, 7, 3, 6]), \
+         patch("model.scrapers.request_handler.asyncio.sleep", new_callable=AsyncMock), \
+         patch("model.scrapers.request_handler.asyncio.gather", wraps=asyncio.gather, new_callable=AsyncMock):
 
         scheduler_task = asyncio.create_task(handler._scheduler())
 
@@ -292,8 +292,8 @@ async def test_on_shutdown_creates_shutdown_task():
     mock_loop = MagicMock()
     mock_loop.add_signal_handler = MagicMock()
 
-    with patch("premierleague.model.scrapers.request_handler.asyncio.get_running_loop", return_value=mock_loop), \
-         patch("premierleague.model.scrapers.request_handler.asyncio.create_task") as mock_create_task:
+    with patch("model.scrapers.request_handler.asyncio.get_running_loop", return_value=mock_loop), \
+         patch("model.scrapers.request_handler.asyncio.create_task") as mock_create_task:
 
         handler._register_shutdown_hooks()
 

@@ -1,11 +1,11 @@
 import pytest
 import sqlite3
 from unittest.mock import patch, MagicMock
-from premierleague.model.models.sqlite_models import SQliteModel, TeamsModel, MatchesModel, PlayersModel, TablesModel
+from model.models.sqlite_models import SQliteModel, TeamsModel, MatchesModel, PlayersModel, TablesModel
 
 @pytest.fixture
 def db_model():
-    with patch('premierleague.model.models.sqlite_models.SQliteDatabaseManager') as mock_db_manager_class, \
+    with patch('model.models.sqlite_models.SQliteDatabaseManager') as mock_db_manager_class, \
          patch.object(SQliteModel, 'get_column_names', return_value=["id", "email", "username", "full_name", "age"]), \
          patch.object(SQliteModel, 'get_unique_constraint', return_value=["email", "username"]), \
          patch.object(SQliteModel, 'get_required_column_names', return_value=["email", "username"]):
@@ -38,7 +38,7 @@ def db_model():
 
 @pytest.fixture
 def db_model_real_methods():
-    with patch('premierleague.model.models.sqlite_models.SQliteDatabaseManager') as mock_db_manager_class, \
+    with patch('model.models.sqlite_models.SQliteDatabaseManager') as mock_db_manager_class, \
          patch.object(SQliteModel, 'initialize'):
 
         model = SQliteModel(database_address=None, table_name="users")
@@ -67,7 +67,7 @@ def db_model_real_methods():
 
 @pytest.fixture
 def setup_an_empty_model():
-    with patch('premierleague.model.database_manager.SQliteDatabaseManager') as mock_manager_class, \
+    with patch('model.database_manager.SQliteDatabaseManager') as mock_manager_class, \
         patch.object(SQliteModel, 'initialize'):
         mock_manager = MagicMock()
         mock_manager_class.return_value = mock_manager
@@ -81,7 +81,7 @@ def setup_an_empty_model():
 
 @pytest.fixture
 def mock_initialization_test_dependencies():
-    with patch("premierleague.model.models.sqlite_models.SQliteDatabaseManager") as MockDBManager, \
+    with patch("model.models.sqlite_models.SQliteDatabaseManager") as MockDBManager, \
          patch.object(SQliteModel, "get_column_names", return_value={"id", "email", "username", "age"}) as mock_colnames, \
          patch.object(SQliteModel, "get_unique_constraint", return_value=["email", "username"]) as mock_unique, \
          patch.object(SQliteModel, "get_required_column_names", return_value={"email", "username"}) as mock_required:

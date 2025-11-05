@@ -4,18 +4,18 @@ from tkinter import ttk
 from pathlib import Path
 import os, copy
 
-from premierleague.tests.utils import prepare_image, resize_image_with_width
+from tests.utils import prepare_image, resize_image_with_width
 from PIL import Image, ImageTk
-from premierleague.view import program_view
-from premierleague.view.program_view import TablesSection
-from premierleague.view.program_view import TeamsSection
-from premierleague.view.program_view import MatchesSection
-from premierleague.view.program_view import PlayersSection
+from view import program_view
+from view.program_view import TablesSection
+from view.program_view import TeamsSection
+from view.program_view import MatchesSection
+from view.program_view import PlayersSection
 
-from premierleague.view.matches_section import MatchesSection
-from premierleague.view.tables_section import TablesSection
-from premierleague.view.teams_section import TeamsSection
-from premierleague.view.players_section import PlayersSection
+from view.matches_section import MatchesSection
+from view.tables_section import TablesSection
+from view.teams_section import TeamsSection
+from view.players_section import PlayersSection
 
 
 FIXTURES_FOLDER_PATH = str(Path(os.path.dirname(__file__)).parent / 'fixtures')
@@ -78,10 +78,10 @@ def test_program_window_preparation(mocker):
 
         return method
 
-    mocker.patch("premierleague.view.program_view.MatchesSection", side_effect=mock_section('matches_section'))
-    mocker.patch("premierleague.view.program_view.TablesSection", side_effect=mock_section('tables_section'))
-    mocker.patch("premierleague.view.program_view.TeamsSection", side_effect=mock_section('teams_section'))
-    mocker.patch("premierleague.view.program_view.PlayersSection", side_effect=mock_section('players_section'))
+    mocker.patch("view.program_view.MatchesSection", side_effect=mock_section('matches_section'))
+    mocker.patch("view.program_view.TablesSection", side_effect=mock_section('tables_section'))
+    mocker.patch("view.program_view.TeamsSection", side_effect=mock_section('teams_section'))
+    mocker.patch("view.program_view.PlayersSection", side_effect=mock_section('players_section'))
 
     mock_callback = MagicMock()
 

@@ -2,17 +2,17 @@
 import pytest
 from unittest.mock import patch, AsyncMock, Mock, MagicMock
 from bs4 import BeautifulSoup
-from premierleague.model.scrapers.player_urls_scraper import PlayerUrlsScraper
-from premierleague.tests.utils import load_fixture
+from model.scrapers.player_urls_scraper import PlayerUrlsScraper
+from tests.utils import load_fixture
 
 @pytest.fixture
 def club_page():
     return load_fixture('club_main_page.html')
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.player_urls_scraper.UrlValidator.validate_squad_page_url', return_value=True)
-@patch('premierleague.model.scrapers.player_urls_scraper.BeautifulSoup')
-@patch('premierleague.model.scrapers.player_urls_scraper.RequestHandler')
+@patch('model.scrapers.player_urls_scraper.UrlValidator.validate_squad_page_url', return_value=True)
+@patch('model.scrapers.player_urls_scraper.BeautifulSoup')
+@patch('model.scrapers.player_urls_scraper.RequestHandler')
 async def test_initialize_behavior(mock_request_handler_class, mock_bs_constructor, mock_validate_url):
     HTML_WITH_PLAYERS = '''
     <ul>
@@ -129,7 +129,7 @@ async def test_scrap_squad_page_url_with_club_name(club_page):
     club_page_url = "https://www.premierleague.com/clubs/1/Arsenal/overview"
     expected_url = "https://www.premierleague.com/clubs/1/Arsenal/squad?se=719"
 
-    with patch("premierleague.model.scrapers.player_urls_scraper.ClubUrlsScraper") as MockScraper:
+    with patch("model.scrapers.player_urls_scraper.ClubUrlsScraper") as MockScraper:
         mock_scraper_instance = MockScraper.return_value
         mock_scraper_instance.initialize = AsyncMock()
         mock_scraper_instance.get_club_urls.return_value = {club_name: club_page_url}

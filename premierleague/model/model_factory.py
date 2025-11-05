@@ -1,8 +1,8 @@
 import sqlite3
 import logging
-from premierleague.model.models import sqlite_models
+from model.models import sqlite_models
 from pathlib import Path
-from premierleague.log_config.logger_configurer import configure_logger
+from log_config.logger_configurer import configure_logger
 
 logger = logging.getLogger(__name__)
 

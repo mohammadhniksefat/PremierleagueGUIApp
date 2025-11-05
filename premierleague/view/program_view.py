@@ -3,10 +3,10 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from io import BytesIO
 
-from premierleague.view.matches_section import MatchesSection
-from premierleague.view.tables_section import TablesSection
-from premierleague.view.teams_section import TeamsSection
-from premierleague.view.players_section import PlayersSection
+from view.matches_section import MatchesSection
+from view.tables_section import TablesSection
+from view.teams_section import TeamsSection
+from view.players_section import PlayersSection
 
 class ProgramWindow:
 

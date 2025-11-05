@@ -1,14 +1,14 @@
 import pytest
 from unittest.mock import patch, AsyncMock, MagicMock
 from bs4 import BeautifulSoup
-from premierleague.model.scrapers.player_data_scraper import PlayerDataScraper
-from premierleague.tests.utils import load_fixture
+from model.scrapers.player_data_scraper import PlayerDataScraper
+from tests.utils import load_fixture
 
 @pytest.fixture
 def player_page():
     return load_fixture('player_page.html')
 
-@patch('premierleague.model.scrapers.player_data_scraper.UrlValidator')
+@patch('model.scrapers.player_data_scraper.UrlValidator')
 def test_init_sets_up_state_correctly(mock_validator):
     mock_validator.validate_player_page_url.return_value = True
     scraper = PlayerDataScraper("https://valid.com/player")
@@ -24,16 +24,16 @@ def test_init_sets_up_state_correctly(mock_validator):
     for key in expected_keys:
         assert key in scraper.player_data
 
-@patch('premierleague.model.scrapers.player_data_scraper.UrlValidator')
+@patch('model.scrapers.player_data_scraper.UrlValidator')
 def test_invalid_url_raises_exception(mock_validator):
     mock_validator.validate_player_page_url.return_value = False
     with pytest.raises(ValueError):
         PlayerDataScraper("invalid_url")
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.player_data_scraper.BeautifulSoup')
-@patch('premierleague.model.scrapers.player_data_scraper.RequestHandler.__new__')
-@patch('premierleague.model.scrapers.player_data_scraper.UrlValidator')
+@patch('model.scrapers.player_data_scraper.BeautifulSoup')
+@patch('model.scrapers.player_data_scraper.RequestHandler.__new__')
+@patch('model.scrapers.player_data_scraper.UrlValidator')
 async def test_initialize_sets_up_scraper(mock_validator, mock_request_handler_cls, mock_beautifulsoup):
     # Mock URL validation
     mock_validator.validate_player_page_url.return_value = True
@@ -79,7 +79,7 @@ async def test_initialize_sets_up_scraper(mock_validator, mock_request_handler_c
     "get_picture"
 ])
 async def test_get_methods_raise_if_not_initialized(method_name):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         # Arrange
         scraper = PlayerDataScraper("https://valid.com/player")
         
@@ -105,7 +105,7 @@ async def test_get_methods_raise_if_not_initialized(method_name):
     get_picture=AsyncMock(return_value=b"binarydata")
 )
 async def test_get_all_data_returns_and_caches_values(**mocked_methods):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = PlayerDataScraper("https://valid-url.com/player")
         scraper._initialized = True  # Bypass initialization requirement
 
@@ -131,7 +131,7 @@ async def test_get_all_data_returns_and_caches_values(**mocked_methods):
             method.assert_awaited_once()
 
 import pytest
-from premierleague.model.scrapers.player_data_scraper import PlayerDataScraper
+from model.scrapers.player_data_scraper import PlayerDataScraper
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("key, method_name, fake_value", [
@@ -147,7 +147,7 @@ from premierleague.model.scrapers.player_data_scraper import PlayerDataScraper
     ("picture", "get_picture", b"fakebinarydata"),
 ])
 async def test_get_methods_return_cached_value(key, method_name, fake_value):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = PlayerDataScraper("https://valid.com/player")
         scraper._initialized = True
         scraper.player_data[key] = fake_value  # Pre-cache the value
@@ -167,7 +167,7 @@ def setup_scraper(player_page_html):
 
 @pytest.mark.asyncio
 async def test_get_firstname(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         firstname = await scraper.get_firstname()
@@ -177,7 +177,7 @@ async def test_get_firstname(player_page):
 
 @pytest.mark.asyncio
 async def test_get_lastname(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         lastname = await scraper.get_lastname()
@@ -187,7 +187,7 @@ async def test_get_lastname(player_page):
 
 @pytest.mark.asyncio
 async def test_get_club_name(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         club_name = await scraper.get_club_name()
@@ -197,7 +197,7 @@ async def test_get_club_name(player_page):
 
 @pytest.mark.asyncio
 async def test_get_position(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         position = await scraper.get_position()
@@ -207,7 +207,7 @@ async def test_get_position(player_page):
 
 @pytest.mark.asyncio
 async def test_get_nationality(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         nationality = await scraper.get_nationality()
@@ -217,7 +217,7 @@ async def test_get_nationality(player_page):
 
 @pytest.mark.asyncio
 async def test_get_shirt_number(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         shirt_number = await scraper.get_shirt_number()
@@ -227,7 +227,7 @@ async def test_get_shirt_number(player_page):
 
 @pytest.mark.asyncio
 async def test_get_date_of_birth(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         dob = await scraper.get_date_of_birth()
@@ -237,7 +237,7 @@ async def test_get_date_of_birth(player_page):
 
 @pytest.mark.asyncio
 async def test_get_age(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         age = await scraper.get_age()
@@ -247,7 +247,7 @@ async def test_get_age(player_page):
 
 @pytest.mark.asyncio
 async def test_get_height(player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         scraper = setup_scraper(player_page)
 
         height = await scraper.get_height()
@@ -256,9 +256,9 @@ async def test_get_height(player_page):
 
 
 @pytest.mark.asyncio
-@patch('premierleague.model.scrapers.player_data_scraper.RequestHandler.__new__')
+@patch('model.scrapers.player_data_scraper.RequestHandler.__new__')
 async def test_get_picture(mock_request_handler, player_page):
-    with patch('premierleague.model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
+    with patch('model.scrapers.player_data_scraper.UrlValidator.validate_player_page_url', return_value=True):
         mock_handler_instance = AsyncMock()
         mock_handler_instance.get.return_value = b"fakebytes"
         mock_request_handler.return_value = mock_handler_instance

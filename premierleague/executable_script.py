@@ -1,5 +1,5 @@
-from premierleague.controller import user_controller
-from premierleague.view import program_view
+from controller import user_controller
+from view import program_view
 
 def main():
     main_controller = user_controller.MainController()

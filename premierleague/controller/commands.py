@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 import os, sys, asyncio, inspect, subprocess, time
 from sqlite3 import IntegrityError
-from premierleague.model.model_factory import ModelFactory
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from model.model_factory import ModelFactory
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 import logging, traceback
 
 logger = logging.getLogger(__name__)
@@ -78,8 +78,8 @@ class DatabaseUpdate(ICommand):
             raise RuntimeError()
 
     def update_teams_model(self):
-        from premierleague.model.scrapers.club_data_scraper import ClubDataScraper
-        from premierleague.model.scrapers.club_urls_scraper import ClubUrlsScraper
+        from model.scrapers.club_data_scraper import ClubDataScraper
+        from model.scrapers.club_urls_scraper import ClubUrlsScraper
 
         configure_logger(resolve_class_module_name(ClubDataScraper))
         configure_logger(resolve_class_module_name(ClubUrlsScraper))
@@ -114,8 +114,8 @@ class DatabaseUpdate(ICommand):
         asyncio.run(coro())
 
     def update_matches_model(self):
-        from premierleague.model.scrapers.match_data_scraper import MatchDataScraper
-        from premierleague.model.scrapers.match_urls_scraper import MatchUrlsScraper
+        from model.scrapers.match_data_scraper import MatchDataScraper
+        from model.scrapers.match_urls_scraper import MatchUrlsScraper
 
         configure_logger(resolve_class_module_name(MatchUrlsScraper))
         configure_logger(resolve_class_module_name(MatchDataScraper))
@@ -147,9 +147,9 @@ class DatabaseUpdate(ICommand):
         asyncio.run(coro())
 
     def update_players_model(self):
-        from premierleague.model.scrapers.player_data_scraper import PlayerDataScraper
-        from premierleague.model.scrapers.player_urls_scraper import PlayerUrlsScraper
-        from premierleague.model.scrapers.club_urls_scraper import ClubUrlsScraper
+        from model.scrapers.player_data_scraper import PlayerDataScraper
+        from model.scrapers.player_urls_scraper import PlayerUrlsScraper
+        from model.scrapers.club_urls_scraper import ClubUrlsScraper
 
         configure_logger(resolve_class_module_name(ClubUrlsScraper))
         configure_logger(resolve_class_module_name(PlayerDataScraper))
@@ -191,7 +191,7 @@ class DatabaseUpdate(ICommand):
         asyncio.run(coro())
 
     def update_tables_model(self):
-        from premierleague.model.scrapers.tables_data_scraper import TablesDataScraper
+        from model.scrapers.tables_data_scraper import TablesDataScraper
 
         configure_logger(resolve_class_module_name(TablesDataScraper))
 
@@ -299,7 +299,7 @@ class ScrapeDataCommand(ICommand):
             logger.debug("Validating arguments for ClubUrlsScraper", extra={"tags": ["debug", "validation"], "args": args})
 
         async def _main(self):
-            from premierleague.model.scrapers.club_urls_scraper import ClubUrlsScraper
+            from model.scrapers.club_urls_scraper import ClubUrlsScraper
 
             configure_logger(resolve_class_module_name(ClubUrlsScraper))
 
@@ -330,7 +330,7 @@ class ScrapeDataCommand(ICommand):
             logger.debug("Arguments validated for ClubDataScraper", extra={"tags": ["validation"], "field": "args", "value": args, "result": "passed"})
 
         async def _main(self):
-            from premierleague.model.scrapers.club_data_scraper import ClubDataScraper
+            from model.scrapers.club_data_scraper import ClubDataScraper
 
             configure_logger(resolve_class_module_name(ClubDataScraper))
 
@@ -353,7 +353,7 @@ class ScrapeDataCommand(ICommand):
             return result
 
         async def _main(self):
-            from premierleague.model.scrapers.match_urls_scraper import MatchUrlsScraper
+            from model.scrapers.match_urls_scraper import MatchUrlsScraper
 
             configure_logger(resolve_class_module_name(MatchUrlsScraper))
 
@@ -388,7 +388,7 @@ class ScrapeDataCommand(ICommand):
             return result
 
         async def _main(self):
-            from premierleague.model.scrapers.match_data_scraper import MatchDataScraper
+            from model.scrapers.match_data_scraper import MatchDataScraper
 
             configure_logger(resolve_class_module_name(MatchDataScraper))
 
@@ -421,7 +421,7 @@ class ScrapeDataCommand(ICommand):
             return asyncio.run(self._main())
 
         async def _main(self):
-            from premierleague.model.scrapers.player_urls_scraper import PlayerUrlsScraper
+            from model.scrapers.player_urls_scraper import PlayerUrlsScraper
 
             configure_logger(resolve_class_module_name(PlayerUrlsScraper))
 
@@ -467,7 +467,7 @@ class ScrapeDataCommand(ICommand):
             return asyncio.run(self._main())
 
         async def _main(self):
-            from premierleague.model.scrapers.player_data_scraper import PlayerDataScraper
+            from model.scrapers.player_data_scraper import PlayerDataScraper
 
             configure_logger(resolve_class_module_name(PlayerDataScraper))
 
@@ -496,7 +496,7 @@ class ScrapeDataCommand(ICommand):
             return asyncio.run(self._main())
 
         async def _main(self):
-            from premierleague.model.scrapers.tables_data_scraper import TablesDataScraper
+            from model.scrapers.tables_data_scraper import TablesDataScraper
 
             configure_logger(resolve_class_module_name(TablesDataScraper))
 
@@ -537,7 +537,7 @@ class TestCommand(ICommand):
     description = "Interactively run and explore test modules and test cases from the tests/ directory."
 
     def execute_command(self):
-        from premierleague.controller import tests_controller
+        from controller import tests_controller
 
         configure_logger(tests_controller.__name__)
 
@@ -561,7 +561,7 @@ class TestCommand(ICommand):
 
 class TestRequestHandler(ICommand):
     base_name = 'test_request_handler'
-    description = 'test request handler'
+    description = 'provide some urls as argument so handler will serve them gracefully and return a chunk of reponses as proof'
 
     def __init__(self, *args):
         logger.debug("Initializing TestRequestHandler", extra={
@@ -592,7 +592,7 @@ class TestRequestHandler(ICommand):
         asyncio.run(self._main())
 
     async def _main(self):
-        from premierleague.model.scrapers.request_handler import RequestHandler
+        from model.scrapers.request_handler import RequestHandler
 
         configure_logger(resolve_class_module_name(RequestHandler))
 

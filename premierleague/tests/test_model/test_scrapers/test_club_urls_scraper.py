@@ -1,16 +1,16 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from bs4 import BeautifulSoup
-from premierleague.tests.utils import load_fixture
-from premierleague.model.scrapers.club_urls_scraper import ClubUrlsScraper
+from tests.utils import load_fixture
+from model.scrapers.club_urls_scraper import ClubUrlsScraper
 
 @pytest.fixture
 def clubs_page_html():
     return load_fixture('clubs_page.html')
 
 @pytest.mark.asyncio
-@patch("premierleague.model.scrapers.club_urls_scraper.BeautifulSoup")
-@patch("premierleague.model.scrapers.club_urls_scraper.RequestHandler.__new__")
+@patch("model.scrapers.club_urls_scraper.BeautifulSoup")
+@patch("model.scrapers.club_urls_scraper.RequestHandler.__new__")
 async def test_initialize_calls_handler_and_parses_html(mock_new, mock_bs):
     # Mock RequestHandler singleton instance
     mock_handler_instance = AsyncMock()

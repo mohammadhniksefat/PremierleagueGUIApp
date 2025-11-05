@@ -1,7 +1,7 @@
 import sqlite3
 import atexit
 import logging
-from premierleague.model.models.base_model import BaseModel
+from model.models.base_model import BaseModel
 
 logger = logging.getLogger(__name__)
 

@@ -3,7 +3,7 @@ import signal
 import asyncio
 import concurrent.futures
 from unittest.mock import patch, MagicMock, AsyncMock, ANY
-from premierleague.model.scrapers.request_handler import RequestHandler
+from model.scrapers.request_handler import RequestHandler
 
 # Fixture to reset singleton before each test
 @pytest.fixture(autouse=True)
@@ -42,7 +42,7 @@ async def test_singleton_async():
     
 @pytest.mark.asyncio
 async def test_configure_initializes_attributes():
-    with patch("premierleague.model.scrapers.request_handler.aiohttp.ClientSession", return_value=MagicMock()) as mock_session:
+    with patch("model.scrapers.request_handler.aiohttp.ClientSession", return_value=MagicMock()) as mock_session:
         handler = RequestHandler()
         await handler.configure()
 
@@ -56,7 +56,7 @@ async def test_configure_initializes_attributes():
 
 @pytest.mark.asyncio
 async def test_configure_does_not_reconfigure_on_second_call():
-    with patch("premierleague.model.scrapers.request_handler.aiohttp.ClientSession", return_value=MagicMock()) as mock_session:
+    with patch("model.scrapers.request_handler.aiohttp.ClientSession", return_value=MagicMock()) as mock_session:
         handler = RequestHandler()
         await handler.configure()
 
@@ -76,7 +76,7 @@ async def test_configure_does_not_reconfigure_on_second_call():
 
 @pytest.mark.asyncio
 async def test_configure_only_runs_once_even_with_multiple_calls():
-    with patch("premierleague.model.scrapers.request_handler.aiohttp.ClientSession", return_value=MagicMock()) as mock_session:
+    with patch("model.scrapers.request_handler.aiohttp.ClientSession", return_value=MagicMock()) as mock_session:
         handler = RequestHandler()
 
         await asyncio.gather(handler.configure(), handler.configure(), handler.configure())
@@ -90,7 +90,7 @@ def test_register_shutdown_hooks_posix():
     handler = RequestHandler()
     mock_loop = MagicMock()
 
-    with patch("premierleague.model.scrapers.request_handler.asyncio.get_running_loop", return_value=mock_loop):
+    with patch("model.scrapers.request_handler.asyncio.get_running_loop", return_value=mock_loop):
         handler._register_shutdown_hooks()
 
         assert mock_loop.add_signal_handler.call_count == 2
@@ -103,9 +103,9 @@ def test_register_shutdown_hooks_windows_fallback():
     shutdown_patch = patch.object(handler, "shutdown", return_value=MagicMock())
     
     with (
-        patch("premierleague.model.scrapers.request_handler.asyncio.get_running_loop", return_value=mock_loop),
+        patch("model.scrapers.request_handler.asyncio.get_running_loop", return_value=mock_loop),
         patch.object(mock_loop, "add_signal_handler", side_effect=NotImplementedError),
-        patch("premierleague.model.scrapers.request_handler.signal.signal") as mock_signal,
+        patch("model.scrapers.request_handler.signal.signal") as mock_signal,
         shutdown_patch,
     ):
         handler._register_shutdown_hooks()
@@ -121,17 +121,17 @@ def test_shutdown_fallback_uses_asyncio_run_on_runtime_error():
     loop = asyncio.new_event_loop()
 
     # patch get_running_loop to return loop normally, but we'll patch it again later for fallback
-    with patch("premierleague.model.scrapers.request_handler.asyncio.get_running_loop", return_value=loop), \
+    with patch("model.scrapers.request_handler.asyncio.get_running_loop", return_value=loop), \
          patch.object(loop, "add_signal_handler", side_effect=NotImplementedError), \
-         patch("premierleague.model.scrapers.request_handler.signal.signal") as mock_signal, \
-         patch("premierleague.model.scrapers.request_handler.asyncio.run") as mock_run, \
+         patch("model.scrapers.request_handler.signal.signal") as mock_signal, \
+         patch("model.scrapers.request_handler.asyncio.run") as mock_run, \
          patch.object(handler, "shutdown", new=AsyncMock()):
 
         handler._register_shutdown_hooks()
 
         # The fallback registered functions are sync_shutdown handlers set by signal.signal
         # Now get_running_loop patchedinside sync_shutdown to raise RuntimeError
-        with patch("premierleague.model.scrapers.request_handler.asyncio.get_running_loop", side_effect=RuntimeError):
+        with patch("model.scrapers.request_handler.asyncio.get_running_loop", side_effect=RuntimeError):
             # Call the fallback signal handlers to trigger the RuntimeError and fallback to asyncio.run
             for call_args in mock_signal.call_args_list:
                 signal_handler_func = call_args[0][1]
@@ -245,9 +245,9 @@ async def test_scheduler_processes_batch_correctly():
         # These return a coroutine when called
         await handler.queue.put(coro)
 
-    with patch("premierleague.model.scrapers.request_handler.random.randint", side_effect=[3, 6]), \
-         patch("premierleague.model.scrapers.request_handler.asyncio.sleep", new=AsyncMock()) as mock_sleep, \
-         patch("premierleague.model.scrapers.request_handler.asyncio.gather", new=AsyncMock()) as mock_gather:
+    with patch("model.scrapers.request_handler.random.randint", side_effect=[3, 6]), \
+         patch("model.scrapers.request_handler.asyncio.sleep", new=AsyncMock()) as mock_sleep, \
+         patch("model.scrapers.request_handler.asyncio.gather", new=AsyncMock()) as mock_gather:
 
         # Run only 1 iteration using timeout to exit loop
         async def limited_scheduler():
@@ -268,9 +268,9 @@ async def test_scheduler_handles_timeout_and_sleeps():
     handler.queue = asyncio.Queue()
     handler._batch_size = 3
 
-    with patch("premierleague.model.scrapers.request_handler.asyncio.sleep", new_callable=AsyncMock) as mock_sleep, \
-         patch("premierleague.model.scrapers.request_handler.random.randint", return_value=3), \
-         patch("premierleague.model.scrapers.request_handler.asyncio.wait_for", side_effect=asyncio.TimeoutError):
+    with patch("model.scrapers.request_handler.asyncio.sleep", new_callable=AsyncMock) as mock_sleep, \
+         patch("model.scrapers.request_handler.random.randint", return_value=3), \
+         patch("model.scrapers.request_handler.asyncio.wait_for", side_effect=asyncio.TimeoutError):
 
         # Run _scheduler in background and let it hit the timeout path
         task = asyncio.create_task(handler._scheduler())
@@ -294,8 +294,8 @@ async def test_scheduler_cancellation():
 
     await handler.queue.put(lambda: AsyncMock())
 
-    with patch("premierleague.model.scrapers.request_handler.asyncio.gather", new=AsyncMock()), \
-         patch("premierleague.model.scrapers.request_handler.asyncio.sleep", new=AsyncMock()):
+    with patch("model.scrapers.request_handler.asyncio.gather", new=AsyncMock()), \
+         patch("model.scrapers.request_handler.asyncio.sleep", new=AsyncMock()):
         task = asyncio.create_task(handler._scheduler())
         await asyncio.sleep(0.05)
         task.cancel()

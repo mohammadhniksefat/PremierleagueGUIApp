@@ -5,7 +5,7 @@ from .utils import UrlValidator
 from .request_handler import RequestHandler
 from .club_urls_scraper import ClubUrlsScraper
 from .premierleague_website_scraper import PremierleagueWebsiteScraper
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 
 logger = logging.getLogger(__name__)
 

@@ -6,9 +6,9 @@ import logging
 import json
 import traceback
 from PIL import Image, ImageTk
-from premierleague.model.model_factory import ModelFactory
-from premierleague.view import program_view
-from premierleague.log_config.logger_configurer import configure_logger, resolve_class_module_name
+from model.model_factory import ModelFactory
+from view import program_view
+from log_config.logger_configurer import configure_logger, resolve_class_module_name
 
 logger = logging.getLogger(__name__)
 
