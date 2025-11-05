@@ -70,12 +70,19 @@ It provides developers and maintainers with powerful control tools to manage and
 
 ## 🛠️ Technologies and Libraries
 Category	Technologies / Libraries
+
 Language	Python 3
+
 GUI	Tkinter
+
 Web Scraping	BeautifulSoup, Playwright
+
 Database	SQLite3
+
 Testing	Pytest
+
 Logging	Built-in logging module
+
 Architecture	MVC, Modular OOP design (separated extractor, scraper, validator, and DB controller classes)
 
 ---
