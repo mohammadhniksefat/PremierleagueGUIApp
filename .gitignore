@@ -1,2 +1,6 @@
 premierleague/logs/
 premierleague/legacy/
+.pytest_cache/
+.vscode/
+__pycache__/
+logs/
