@@ -1,6 +1,19 @@
 premierleague/logs/
 premierleague/legacy/
+
+# Cache and logs
 .pytest_cache/
 .vscode/
 __pycache__/
 logs/
+
+# Virtual environments
+venv/
+.env/
+
+# IDE/project settings
+.vscode/
+.idea/
+
+# C extensions
+*.so
